@@ -1,4 +1,5 @@
 import re
+import openpyxl
 
 file_path = r"C:\Users\1\PycharmProjects\pythonProject\transactions_excel.xlsx"
 
@@ -10,7 +11,7 @@ def search_transactions(transactions: list[dict], search: str) -> list[dict]:
     """
     results = []
     for transaction in transactions:
-        if re.search(search, description, flags=re.IGNORECASE) and isinstance(transaction['description'], str):
+        if re.search(search, transaction['description'], flags=re.IGNORECASE) and isinstance(transaction['description'], str):
             if search in transaction['description']:
                 results.append(transaction)
     return results
