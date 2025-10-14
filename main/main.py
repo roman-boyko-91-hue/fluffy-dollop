@@ -19,7 +19,7 @@ def main():
     print('2. Получить информацию о транзакциях из CSV-файла')
     print('3. Получить информацию о транзакциях из XLSX-файла')
 
-    transactions = []  # Инициализация переменной
+    transactions = []
 
     while True:
         choice = input('Пользователь: ').strip()
