@@ -1,6 +1,7 @@
+import os
 import pandas as pd
 import json
-import os
+from os import path
 
 file_path = r"C:\Users\1\PycharmProjects\pythonProject\transactions_excel.xlsx"
 transactions_df = pd.read_excel(file_path)
@@ -21,18 +22,17 @@ def main():
         choice = input('Пользователь: ').strip()
         if choice == '1':
             print('Программа: Для обработки выбран JSON-файл.')
-            transactions = load_json_file(
-                os.path.join(os.path.dirname(os.path.dirname(__file__)), "data", "operations.json"))
+            transactions = json.load(os.path.join(os.path.dirname(os.path.dirname(__file__)), "data", "operations.json")
             break
         elif choice == '2':
             print('Программа: Для обработки выбран CSV-файл.')
             transactions = load_csv_file(
-                os.path.join(os.path.dirname(os.path.dirname(__file__)), "data", "transactions.csv"))
+                path.join(path.dirname(path.dirname(__file__)), "data", "transactions.csv"))
             break
         elif choice == '3':
             print('Программа: Для обработки выбран XLSX-файл.')
             transactions = load_exel_file(
-                os.path.join(os.path.dirname(os.path.dirname(__file__)), "data", "transactions_excel.xlsx"))
+                path.join(path.dirname(path.dirname(__file__)), "data", "transactions_excel.xlsx"))
             break
         else:
             print('Программа: Некорректный выбор. Пожалуйста, выберите 1, 2 или 3.')
