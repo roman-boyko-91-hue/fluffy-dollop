@@ -2,6 +2,8 @@ import os
 import csv
 from re import search
 from src.description_list import process_bank_operations
+from src.func_for_main import filter_by_state
+from src.func_for_main import sort_by_date
 
 
 import pandas as pd
@@ -71,7 +73,7 @@ if sort_answer == 'да':
         order = input('Пользователь: ').strip().lower()
         if order in ['по возрастанию', 'по убыванию']:
             descending = (order == 'по возрастанию')
-            transactions = sort_by_date(transactions, descending)
+            transactions = sort_by_date()
             break
         else:
             print('Программа: Пожалуйста, введите "по возрастанию" или "по убыванию".')
@@ -85,7 +87,7 @@ while True:
         print('Программа: Пожалуйста, введите "Да" или "Нет".')
 
 if rub_filter == 'да':
-    transactions = filter_by_currency(transactions, 'RUB')
+    transactions = filter_by_state(transactions, 'RUB')
 
 while True:
     print('Программа: Отфильтровать список транзакций по определенному слову в описании? Да/Нет')
