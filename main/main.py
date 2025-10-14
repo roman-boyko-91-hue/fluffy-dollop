@@ -1,11 +1,12 @@
 import os
 import csv
 from re import search
-from src.description_list import def process_bank_operations
+from src.description_list import process_bank_operations
+
 
 import pandas as pd
 import json
-from os import path
+
 
 file_name = r"C:\Users\1\PycharmProjects\pythonProject\transactions.csv"
 file_path = r"C:\Users\1\PycharmProjects\pythonProject\transactions_excel.xlsx"
@@ -29,7 +30,8 @@ def main():
         choice = input('Пользователь: ').strip()
         if choice == '1':
             print('Программа: Для обработки выбран JSON-файл.')
-            transactions = json.load(os.path.join(os.path.dirname(os.path.dirname(__file__)), "data", "operations.json")
+            transactions = json.load(
+                os.path.join(r"C:\Users\1\PycharmProjects\pythonProject\main\operations.json"))
             break
         elif choice == '2':
             print('Программа: Для обработки выбран CSV-файл.')
@@ -37,7 +39,7 @@ def main():
             break
         elif choice == '3':
             print('Программа: Для обработки выбран XLSX-файл.')
-            transactions = transactions_list(path.join(path.dirname(path.dirname(__file__)), "data", "transactions_excel.xlsx"))
+            transactions_list = pd.read_excel(os.path.join(file_path)).to_dict(orient='records')
             break
         else:
             print('Программа: Некорректный выбор. Пожалуйста, выберите 1, 2 или 3.')
@@ -49,7 +51,7 @@ def main():
         status_input = input('Пользователь: ').strip()
         if status_input.upper() in valid_statuses:
             print(f'Программа: Операции отфильтрованы по статусу "{status_input.upper()}"')
-            transactions = filtered_by_state(transactions, status_input)
+            transactions = filter_by_state(transactions, status_input)
             break
         else:
             print(f'Программа: Статус операции "{status_input}" недоступен.')
@@ -65,11 +67,11 @@ while True:
 
 if sort_answer == 'да':
     while True:
-        print('Программа: Отсортировать по возрастанию или по убыванию?')
+        print('Программа: Сортировка по возрастанию или по убыванию?')
         order = input('Пользователь: ').strip().lower()
         if order in ['по возрастанию', 'по убыванию']:
             descending = (order == 'по возрастанию')
-            transactions = sorted_by_date(transactions, descending)
+            transactions = sort_by_date(transactions, descending)
             break
         else:
             print('Программа: Пожалуйста, введите "по возрастанию" или "по убыванию".')
@@ -83,7 +85,7 @@ while True:
         print('Программа: Пожалуйста, введите "Да" или "Нет".')
 
 if rub_filter == 'да':
-    transactions = filtered_by_currency(transactions, 'RUB')
+    transactions = filter_by_currency(transactions, 'RUB')
 
 while True:
     print('Программа: Отфильтровать список транзакций по определенному слову в описании? Да/Нет')
