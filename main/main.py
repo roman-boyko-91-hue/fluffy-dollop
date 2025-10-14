@@ -1,21 +1,12 @@
 import os
-import csv
-from re import search
-from src.description_list import process_bank_operations
-from src.func_for_main import filter_by_state
-from src.func_for_main import sort_by_date
-
-
 import pandas as pd
 import json
 
+from src.description_list import process_bank_operations
+from src.func_for_main import filter_by_state, sort_by_date
 
 file_name = r"C:\Users\1\PycharmProjects\pythonProject\transactions.csv"
 file_path = r"C:\Users\1\PycharmProjects\pythonProject\transactions_excel.xlsx"
-transactions_df = pd.read_excel(file_path)
-transactions_list = transactions_df.to_dict(orient='records')
-transactions_df = pd.read_csv(file_name)
-transactions_list_2 = transactions_df.to_dict(orient='records')
 
 
 def main():
@@ -28,23 +19,31 @@ def main():
     print('2. Получить информацию о транзакциях из CSV-файла')
     print('3. Получить информацию о транзакциях из XLSX-файла')
 
+    transactions = []  # Инициализация переменной
+
     while True:
         choice = input('Пользователь: ').strip()
         if choice == '1':
             print('Программа: Для обработки выбран JSON-файл.')
-            transactions = json.load(
-                os.path.join(r"C:\Users\1\PycharmProjects\pythonProject\main\operations.json"))
+            with open(os.path.join("C:\Users\1\PycharmProjects\pythonProject\main\operations.json"), 'r') as file:
+                transactions = json.load(file)
             break
         elif choice == '2':
             print('Программа: Для обработки выбран CSV-файл.')
-            reader = csv.DictReader(file_name, delimiter=';')
+            transactions_df = pd.read_csv(file_name)
+            transactions = transactions_df.to_dict(orient='records')
             break
         elif choice == '3':
             print('Программа: Для обработки выбран XLSX-файл.')
-            transactions_list = pd.read_excel(os.path.join(file_path)).to_dict(orient='records')
+            transactions_df = pd.read_excel(file_path)
+            transactions = transactions_df.to_dict(orient='records')
             break
         else:
             print('Программа: Некорректный выбор. Пожалуйста, выберите 1, 2 или 3.')
+
+    if not transactions:
+        print("Программа: Ошибка загрузки данных. Проверьте источник данных.")
+        return
 
     valid_statuses = ['EXECUTED', 'CANCELED', 'PENDING']
     while True:
@@ -58,50 +57,21 @@ def main():
         else:
             print(f'Программа: Статус операции "{status_input}" недоступен.')
 
+    if get_yes_no_input('Программа: Отсортировать операции по дате? Да/Нет'):
+        order = get_yes_no_input('Программа: Сортировка по возрастанию или по убыванию?')
+        transactions = sort_by_date(transactions, reverse=not order)
 
-while True:
-    print('Программа: Отсортировать операции по дате? Да/Нет')
-    sort_answer = input('Пользователь: ').strip().lower()
-    if sort_answer in ['да', 'нет']:
-        break
-    else:
-        print('Программа: Пожалуйста, введите "Да" или "Нет".')
+    if get_yes_no_input('Программа: Выводить только рублевые транзакции? Да/Нет'):
+        transactions = filter_by_state(transactions, 'RUB')
 
-if sort_answer == 'да':
+    print('Программа: Распечатываю итоговый список транзакций...\n')
+    print(f"Всего банковских операций в выборке: {len(transactions)}")
+
+
+def get_yes_no_input(prompt):
     while True:
-        print('Программа: Сортировка по возрастанию или по убыванию?')
-        order = input('Пользователь: ').strip().lower()
-        if order in ['по возрастанию', 'по убыванию']:
-            descending = (order == 'по возрастанию')
-            transactions = sort_by_date()
-            break
+        answer = input(prompt).strip().lower()
+        if answer in ['да', 'нет']:
+            return answer == 'да'
         else:
-            print('Программа: Пожалуйста, введите "по возрастанию" или "по убыванию".')
-
-while True:
-    print('Программа: Выводить только рублевые транзакции? Да/Нет')
-    rub_filter = input('Пользователь: ').strip().lower()
-    if rub_filter in ['да', 'нет']:
-        break
-    else:
-        print('Программа: Пожалуйста, введите "Да" или "Нет".')
-
-if rub_filter == 'да':
-    transactions = filter_by_state(transactions, 'RUB')
-
-while True:
-    print('Программа: Отфильтровать список транзакций по определенному слову в описании? Да/Нет')
-    keyword_filter = input('Пользователь: ').strip().lower()
-    if keyword_filter in ['да', 'нет']:
-        break
-    else:
-        print('Программа: Пожалуйста, введите "Да" или "Нет".')
-
-if keyword_filter == 'да':
-    print('Программа: Введите слово для фильтрации:')
-    keyword = input('Пользователь: ').strip()
-    transactions = process_bank_operations(transactions, search)
-
-print('Программа: Распечатываю итоговый список транзакций...\n')
-print(f"Всего банковских операций в выборке: {process_bank_operations}")
-return transactions
+            print('Программа: Пожалуйста, введите "Да" или "Нет".')
