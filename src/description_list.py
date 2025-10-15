@@ -1,5 +1,6 @@
-import pandas as pd
 from collections import Counter
+
+import pandas as pd
 
 file_path = r"C:\Users\1\PycharmProjects\pythonProject\transactions_excel.xlsx"
 transactions_df = pd.read_excel(file_path)

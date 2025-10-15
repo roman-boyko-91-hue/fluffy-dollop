@@ -1,5 +1,5 @@
-from typing import List, Dict, Any
 from datetime import datetime
+from typing import Any, Dict, List
 
 list_dict = [
     {"id": 41428829, "state": "EXECUTED", "date": "2019-07-03T18:35:29.512364"},
