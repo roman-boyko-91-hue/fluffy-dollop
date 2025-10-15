@@ -20,14 +20,20 @@ poetry install
 ```
 poetry add --group dev pytest
 ```
+4. Установите библиотеку `pandas`
+```
+poetry add pandas
+```
 ## Использование
 
-1. Откройте файл `test_processing.py`.
-2. Запустите тестирование функции через `pytest`.
-3. Откройте файл `test_masks.py`.
-4. Запустите тестирование функции через `pytest`.
-5. Откройте файл `test_widget.py`.
-6. Запустите тестирование функции через `pytest`.
+1. Откройте файл `description.py`.
+2. Проверьте работу функции `search_transactions`.
+3. Откройте файл `description_list.py`.
+4. Проверьте работу функции `process_bank_operations`.
+5. Откройте файл `main.py`.
+6. Проверьте работу функции `main`.
+7. Откройте файл `test_new_func.py`.
+8. Запустите тестирование функции через `pytest`.
 
 ## Документация:
 
@@ -37,8 +43,3 @@ poetry add --group dev pytest
 ##  Лицензия:
 
 Отсутствует.
-
-
-
-
-
