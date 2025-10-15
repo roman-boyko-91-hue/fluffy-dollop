@@ -1,10 +1,10 @@
 import os
 import sys
 
+import pytest
+
 # Добавляем корневую директорию проекта в PYTHONPATH
 sys.path.insert(0, os.path.abspath(os.path.dirname(__file__)))
-
-import pytest
 
 
 @pytest.fixture
@@ -23,6 +23,7 @@ def transactions():
             "amount": 23789
         }
     ]
+
 
 @pytest.fixture
 def search():

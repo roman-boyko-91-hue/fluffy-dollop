@@ -3,7 +3,6 @@ import os
 
 import pandas as pd
 
-from src.description_list import process_bank_operations
 from src.func_for_main import filter_by_state, sort_by_date
 
 file_name = r"C:\Users\1\PycharmProjects\pythonProject\transactions.csv"
