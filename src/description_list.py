@@ -3,7 +3,7 @@ from collections import Counter
 
 import pandas as pd
 
-file_path = r"/data/transactions_excel.xlsx"
+file_path = r"C:\Users\1\PycharmProjects\pythonProject\data\transactions_excel.xlsx"
 transactions_df = pd.read_excel(file_path)
 transactions_list = transactions_df.to_dict(orient='records')
 

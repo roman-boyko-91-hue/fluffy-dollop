@@ -6,8 +6,9 @@ import pandas as pd
 from src.func_for_main import filter_by_state, sort_by_date
 from src.description_list import process_bank_operations
 
-file_name = r"/data/transactions.csv"
-file_path = r"/data/transactions_excel.xlsx"
+file_name = r"C:\Users\1\PycharmProjects\pythonProject\data\transactions.csv"
+file_path = r"C:\Users\1\PycharmProjects\pythonProject\data\transactions_excel.xlsx"
+file_operation = r"C:\Users\1\PycharmProjects\pythonProject\data\operations.json"
 
 
 def get_yes_no_input(prompt):
@@ -17,7 +18,6 @@ def get_yes_no_input(prompt):
             return answer == 'да'
         else:
             print('Программа: Пожалуйста, введите "Да" или "Нет".')
-
 
 def main():
     """
@@ -35,7 +35,7 @@ def main():
         choice = input('Пользователь: ').strip()
         if choice == '1':
             print('Программа: Для обработки выбран JSON-файл.')
-            with open(os.path.join("C:\Users\1\PycharmProjects\pythonProject\main\operations.json"), 'r') as file:
+            with open(os.path.join(file_operation, "r")) as file:
                 transactions = json.load(file)
             break
         elif choice == '2':
@@ -68,7 +68,7 @@ def main():
             print(f'Программа: Статус операции "{status_input}" недоступен.')
 
     if get_yes_no_input('Программа: Отсортировать операции по дате? Да/Нет'):
-        order = get_yes_no_input('Программа: Сортировка по возрастанию или по убыванию?')
+        order = input("Программа: Сортировка по возрастанию или по убыванию? по возрастанию/по убыванию\n").strip().lower()
         transactions = sort_by_date(transactions, reverse=not order)
 
     if get_yes_no_input('Программа: Выводить только рублевые транзакции? Да/Нет'):
@@ -81,5 +81,4 @@ def main():
         search = input("Программа: Введите слово для поиска:\n").strip().lower()
         transactions = process_bank_operations(transactions, search)
 
-    print('Программа: Распечатываю итоговый список транзакций...\n')
-    print(f"Всего банковских операций в выборке: {len(transactions)}")
+    print(f"Программа: Всего банковских операций в выборке: {len(transactions)}")
