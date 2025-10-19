@@ -6,8 +6,8 @@ import pandas as pd
 from src.func_for_main import filter_by_state, sort_by_date
 from src.description_list import process_bank_operations
 
-file_name = r"C:\Users\1\PycharmProjects\pythonProject\transactions.csv"
-file_path = r"C:\Users\1\PycharmProjects\pythonProject\transactions_excel.xlsx"
+file_name = r"/data/transactions.csv"
+file_path = r"/data/transactions_excel.xlsx"
 
 
 def get_yes_no_input(prompt):
