@@ -36,7 +36,8 @@ def main():
         choice = input('Пользователь: ').strip()
         if choice == '1':
             print('Программа: Для обработки выбран JSON-файл.')
-            with open(os.path.join(file_operation, "r")) as file:
+            # ИСПРАВЛЕНИЕ: Убрана лишняя переменная в open()
+            with open(file_operation, "r", encoding='utf-8') as file:
                 transactions = json.load(file)
             break
         elif choice == '2':
@@ -71,10 +72,10 @@ def main():
     if get_yes_no_input('Программа: Отсортировать операции по дате? Да/Нет'):
         order = input(
             "Программа: Сортировка по возрастанию или по убыванию? по возрастанию/по убыванию\n").strip().lower()
-        transactions = sort_by_date(transactions, reverse=not order)
+        transactions = sort_by_date(transactions, reverse=True)
 
     if get_yes_no_input('Программа: Выводить только рублевые транзакции? Да/Нет'):
-        transactions = filter_by_state(transactions, 'RUB')
+        transactions = [t for t in transactions if t.get('currency', '').upper() == 'RUB']
 
     # Фильтрация по слову в описании
     word_filter = input(
@@ -84,3 +85,8 @@ def main():
         transactions = process_bank_operations(transactions, search)
 
     print(f"Программа: Всего банковских операций в выборке: {len(transactions)}")
+
+
+# Добавлен вызов main функции если файл запущен напрямую
+if __name__ == "__main__":
+    main()
