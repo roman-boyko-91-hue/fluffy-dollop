@@ -27,3 +27,5 @@ def sort_by_date(list_dict: List[Dict[str, Any]], reverse: bool = True) -> List[
     except (ValueError, TypeError):
         # Если дата в неправильном формате, сортируем как строки
         return sorted(list_dict, key=lambda x: x.get('date', ''), reverse=reverse)
+
+

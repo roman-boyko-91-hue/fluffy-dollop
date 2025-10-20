@@ -4,11 +4,11 @@ import os
 import pandas as pd
 
 from src.func_for_main import filter_by_state, sort_by_date
-from src.description_list import process_bank_operations
+from src.description import search_transactions
 
-file_name = r"C:\Users\1\PycharmProjects\pythonProject\data\transactions.csv"
-file_path = r"C:\Users\1\PycharmProjects\pythonProject\data\transactions_excel.xlsx"
-file_operation = r"C:\Users\1\PycharmProjects\pythonProject\data\operations.json"
+file_name = r"../data/transactions.csv"
+file_path = r"../data/transactions_excel.xlsx"
+file_operation = r"../data/operations.json"
 
 
 def get_yes_no_input(prompt):
@@ -36,7 +36,6 @@ def main():
         choice = input('Пользователь: ').strip()
         if choice == '1':
             print('Программа: Для обработки выбран JSON-файл.')
-            # ИСПРАВЛЕНИЕ: Убрана лишняя переменная в open()
             with open(file_operation, "r", encoding='utf-8') as file:
                 transactions = json.load(file)
             break
@@ -70,19 +69,38 @@ def main():
             print(f'Программа: Статус операции "{status_input}" недоступен.')
 
     if get_yes_no_input('Программа: Отсортировать операции по дате? Да/Нет'):
+        print("Отфильтрованные и отсортированные транзакции по дате:")
+        for transaction in transactions:
+            print(transaction)
         order = input(
             "Программа: Сортировка по возрастанию или по убыванию? по возрастанию/по убыванию\n").strip().lower()
         transactions = sort_by_date(transactions, reverse=True)
+        print("Отфильтрованные и отсортированные транзакции:")
+        for transaction in transactions:
+            print(transaction)
 
     if get_yes_no_input('Программа: Выводить только рублевые транзакции? Да/Нет'):
-        transactions = [t for t in transactions if t.get('currency', '').upper() == 'RUB']
+        for t in transactions:
+            transactions = [t for t in transactions if t.get('operationAmount', {}).get('currency', {}).get('code') == 'RUB']
+            print(transactions)
 
-    # Фильтрация по слову в описании
-    word_filter = input(
-        "Программа: Отфильтровать данный список транзакций по определенному слову в описании? Да/Нет\n").strip().lower()
+
+    word_filter = input("Программа: Отфильтровать по слову? Да/Нет\n").strip().lower()
     if word_filter in ['да', 'yes']:
         search = input("Программа: Введите слово для поиска:\n").strip().lower()
-        transactions = process_bank_operations(transactions, search)
+        transactions = search_transactions(transactions, search)
+
+    print("Отфильтрованные и отсортированные транзакции:")
+    for t in transactions:
+        print(transactions)
+
+    # Вывод результата
+
+    print("Программа: Распечатываю итоговый список транзакций...")
+    print(transactions)
+    if not transactions:
+        print("Программа: Не найдено ни одной транзакции, подходящей под ваши условия фильтрации")
+        return
 
     print(f"Программа: Всего банковских операций в выборке: {len(transactions)}")
 

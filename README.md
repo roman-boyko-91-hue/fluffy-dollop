@@ -2,14 +2,14 @@
 
 ## Описание:
 
-Проект Homework_10_2 - это проект домашнего задания
+Проект Homework_13_2 - это проект домашнего задания
 в рамках 2 курса Разработка на Python
 
 ## Установка:
 
 1. Клонируйте репозиторий:
 ```
-git clone https://github.com/roman-boyko-91-hue/Repository/tree/feature/homework_10_2
+git clone https://github.com/roman-boyko-91-hue/Repository/tree/feature/homework_13_2
 ```
 2. Установите зависимости:
 ```
