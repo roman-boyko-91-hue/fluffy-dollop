@@ -1,10 +1,10 @@
-import json
-import os
-
-import pandas as pd
-
-from src.func_for_main import filter_by_state, sort_by_date
+from src.utils import get_transactions_from_json
+from src.transactions_csv import read_file_csv
+from src.transactions_excel import open_transaction_excel
+from src.processing import filter_by_state, sort_by_date
+from src.generators import filter_by_currency
 from src.description import search_transactions
+
 
 file_name = r"../data/transactions.csv"
 file_path = r"../data/transactions_excel.xlsx"
@@ -19,7 +19,6 @@ def get_yes_no_input(prompt):
         else:
             print('Программа: Пожалуйста, введите "Да" или "Нет".')
 
-
 def main():
     """
     Функция, которая отвечает за основную логику проекта и связывает функциональности между собой.
@@ -30,24 +29,22 @@ def main():
     print('2. Получить информацию о транзакциях из CSV-файла')
     print('3. Получить информацию о транзакциях из XLSX-файла')
 
+
     transactions = []
 
     while True:
         choice = input('Пользователь: ').strip()
         if choice == '1':
             print('Программа: Для обработки выбран JSON-файл.')
-            with open(file_operation, "r", encoding='utf-8') as file:
-                transactions = json.load(file)
+            transactions = get_transactions_from_json(file_operation)
             break
         elif choice == '2':
             print('Программа: Для обработки выбран CSV-файл.')
-            transactions_df = pd.read_csv(file_name)
-            transactions = transactions_df.to_dict(orient='records')
+            transactions = read_file_csv(file_name)
             break
         elif choice == '3':
             print('Программа: Для обработки выбран XLSX-файл.')
-            transactions_df = pd.read_excel(file_path)
-            transactions = transactions_df.to_dict(orient='records')
+            transactions = open_transaction_excel(file_path)
             break
         else:
             print('Программа: Некорректный выбор. Пожалуйста, выберите 1, 2 или 3.')
@@ -55,6 +52,7 @@ def main():
     if not transactions:
         print("Программа: Ошибка загрузки данных. Проверьте источник данных.")
         return
+
 
     valid_statuses = ['EXECUTED', 'CANCELED', 'PENDING']
     while True:
@@ -74,16 +72,17 @@ def main():
             print(transaction)
         order = input(
             "Программа: Сортировка по возрастанию или по убыванию? по возрастанию/по убыванию\n").strip().lower()
-        transactions = sort_by_date(transactions, reverse=True)
+        if order == "по убыванию":
+            transactions = sort_by_date(transactions, reverse=True)
+        else:
+            transactions = sort_by_date(transactions, reverse=False)
         print("Отфильтрованные и отсортированные транзакции:")
         for transaction in transactions:
             print(transaction)
 
     if get_yes_no_input('Программа: Выводить только рублевые транзакции? Да/Нет'):
-        for t in transactions:
-            transactions = [t for t in transactions if t.get('operationAmount', {}).get('currency', {}).get('code') == 'RUB']
-            print(transactions)
-
+       transactions = list(filter_by_currency(transactions, "RUB"))
+       print(transactions)
 
     word_filter = input("Программа: Отфильтровать по слову? Да/Нет\n").strip().lower()
     if word_filter in ['да', 'yes']:
@@ -104,7 +103,4 @@ def main():
 
     print(f"Программа: Всего банковских операций в выборке: {len(transactions)}")
 
-
-# Добавлен вызов main функции если файл запущен напрямую
-if __name__ == "__main__":
-    main()
+main()

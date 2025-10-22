@@ -33,8 +33,6 @@ def filter_by_currency(transaction: List[Dict[Any, Any]], currency: str) -> Iter
                transaction))
     for trans in filtered_currency:
         yield trans
-    else:
-        raise ValueError("Некорректные данные в транзакции")
 
 
 def transaction_descriptions(transaction: list) -> Iterator[str]:

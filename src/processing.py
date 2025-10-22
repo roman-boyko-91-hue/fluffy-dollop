@@ -12,7 +12,7 @@ list_dict = [
 def filter_by_state(list_dict: List[Dict[str, Any]], state: str = "EXECUTED") -> List[Dict[str, Any]]:
     """Функция возвращает новый список словарей, у которых
        ключ 'state' соответствует указанному значению"""
-    return [item for item in list_dict if item.get('state') in ('EXECUTED', 'CANCELED')]
+    return [item for item in list_dict if item.get('state') == state]
 
 
 def sort_by_date(list_dict: List[Dict[str, Any]], reverse: bool = True) -> List[Dict[str, Any]]:
