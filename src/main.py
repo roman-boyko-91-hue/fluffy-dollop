@@ -4,7 +4,7 @@ from src.transactions_excel import open_transaction_excel
 from src.processing import filter_by_state, sort_by_date
 from src.generators import filter_by_currency
 from src.description import search_transactions
-
+from masks import get_mask_card_number
 
 file_name = r"../data/transactions.csv"
 file_path = r"../data/transactions_excel.xlsx"
@@ -19,6 +19,7 @@ def get_yes_no_input(prompt):
         else:
             print('Программа: Пожалуйста, введите "Да" или "Нет".')
 
+
 def main():
     """
     Функция, которая отвечает за основную логику проекта и связывает функциональности между собой.
@@ -28,7 +29,6 @@ def main():
     print('1. Получить информацию о транзакциях из JSON-файла')
     print('2. Получить информацию о транзакциях из CSV-файла')
     print('3. Получить информацию о транзакциях из XLSX-файла')
-
 
     transactions = []
 
@@ -52,7 +52,6 @@ def main():
     if not transactions:
         print("Программа: Ошибка загрузки данных. Проверьте источник данных.")
         return
-
 
     valid_statuses = ['EXECUTED', 'CANCELED', 'PENDING']
     while True:
@@ -81,8 +80,8 @@ def main():
             print(transaction)
 
     if get_yes_no_input('Программа: Выводить только рублевые транзакции? Да/Нет'):
-       transactions = list(filter_by_currency(transactions, "RUB"))
-       print(transactions)
+        transactions = list(filter_by_currency(transactions, "RUB"))
+        print(transactions)
 
     word_filter = input("Программа: Отфильтровать по слову? Да/Нет\n").strip().lower()
     if word_filter in ['да', 'yes']:
@@ -93,14 +92,27 @@ def main():
     for t in transactions:
         print(transactions)
 
-    # Вывод результата
+    print("Программа: Распечатываю итоговый список транзакций...\n")
+    print("Всего банковских операций в выборке: {}".format(len(transactions)))
 
-    print("Программа: Распечатываю итоговый список транзакций...")
-    print(transactions)
+    transactions = get_mask_card_number('card_number')
+    print(type(transactions))
+    print(transactions[:1])
+
+    for transaction in transactions:
+        print(f"{transaction['date']} {transaction['description']}")
+        if 'from' in transaction and 'to' in transaction:
+            print(f"{transaction['from']} -> {transaction['to']}")
+        elif 'from' in transaction:
+            print(transaction['from'])
+        elif 'to' in transaction:
+            print(transaction['to'])
+        print(
+            f"Сумма: {transaction['operationAmount']['amount']} {transaction['operationAmount']['currency']['name']}\n")
+
     if not transactions:
         print("Программа: Не найдено ни одной транзакции, подходящей под ваши условия фильтрации")
         return
 
-    print(f"Программа: Всего банковских операций в выборке: {len(transactions)}")
 
 main()
