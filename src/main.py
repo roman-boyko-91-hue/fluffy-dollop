@@ -57,9 +57,9 @@ def main():
     while True:
         print('Программа: Введите статус, по которому необходимо выполнить фильтрацию.')
         print(f'Доступные для фильтрации статусы: {", ".join(valid_statuses)}')
-        status_input = input('Пользователь: ').strip()
+        status_input = input('Пользователь: ').strip().upper()
         if status_input.upper() in valid_statuses:
-            print(f'Программа: Операции отфильтрованы по статусу "{status_input.upper()}"')
+            print(f'Программа: Операции отфильтрованы по статусу "{status_input}"')
             transactions = filter_by_state(transactions, status_input)
             break
         else:
@@ -100,7 +100,10 @@ def main():
     print(transactions[:1])
 
     for transaction in transactions:
-        print(f"{transaction['date']} {transaction['description']}")
+        if 'amount' in transaction:
+           print(transaction['amount'])
+        else:
+            print(transaction['operationAmount']['amount'])
         if 'from' in transaction and 'to' in transaction:
             print(f"{transaction['from']} -> {transaction['to']}")
         elif 'from' in transaction:
