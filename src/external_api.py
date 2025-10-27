@@ -23,7 +23,7 @@ API_KEY = os.getenv('API_KEY')
 
 
 def external_api(
-        transaction):  # Реализауем функцию которая будет принимать транзакцию, а возвращать сумму после конвертации.
+        transaction):  # Реализуем функцию, которая будет принимать транзакцию, а возвращать сумму после конвертации.
 
     from_currency = transaction["operationAmount"]["currency"]["code"]
     amount = transaction["operationAmount"]["amount"]
