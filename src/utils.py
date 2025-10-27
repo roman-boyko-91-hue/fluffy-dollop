@@ -37,4 +37,3 @@ def get_transactions_from_json(file_path: str) -> List[Dict[str, Any]]:
 
 
 result = get_transactions_from_json(os.path.join(os.path.dirname(os.path.dirname(__file__)), "data", "operations.json"))
-print(result)

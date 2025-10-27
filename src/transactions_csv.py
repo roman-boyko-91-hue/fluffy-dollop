@@ -18,6 +18,3 @@ def read_file_csv(file_name: str) -> list[Any] | None:
             return result_dict
     except Exception as e:
         return f"Ошибка {e}"
-
-
-print(read_file_csv(file_name))

@@ -36,5 +36,3 @@ def get_mask_account(account_number: str) -> str:
 
 result_1 = get_mask_card_number(os.path.join(os.path.dirname(os.path.dirname(__file__)), "data", "operations.json"))
 result_2 = get_mask_account(os.path.join(os.path.dirname(os.path.dirname(__file__)), "data", "operations.json"))
-print(result_1)
-print(result_2)

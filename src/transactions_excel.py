@@ -14,6 +14,3 @@ def open_transaction_excel(file_path):
         return df.to_dict(orient='records')
     except Exception as e:
         return []
-
-
-print(open_transaction_excel(file_path))

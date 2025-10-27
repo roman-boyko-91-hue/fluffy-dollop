@@ -20,6 +20,3 @@ def search_transactions(transactions: list[dict], search: str) -> list[dict]:
                 results.append(transaction)
 
     return results
-
-
-print(search_transactions(transactions_list, 'перевод'))
