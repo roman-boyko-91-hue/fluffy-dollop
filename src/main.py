@@ -5,6 +5,7 @@ from src.processing import filter_by_state, sort_by_date
 from src.generators import filter_by_currency
 from src.description import search_transactions
 from masks import get_mask_card_number
+from widget import get_date
 
 file_name = r"../data/transactions.csv"
 file_path = r"../data/transactions_excel.xlsx"
@@ -90,20 +91,17 @@ def main():
 
     print("Отфильтрованные и отсортированные транзакции:")
     for t in transactions:
-        print(transactions)
+        print(t)
 
     print("Программа: Распечатываю итоговый список транзакций...\n")
     print("Всего банковских операций в выборке: {}".format(len(transactions)))
 
-    transactions = get_mask_card_number('card_number')
-    print(type(transactions))
-    print(transactions[:1])
+    masked_transactions = get_mask_card_number('card_number')
+    print(masked_transactions[:5])
 
     for transaction in transactions:
-        if 'amount' in transaction:
-           print(transaction['amount'])
-        else:
-            print(transaction['operationAmount']['amount'])
+        date = transaction['date']
+        print(f"{transaction['date']} {transaction['description']}")
         if 'from' in transaction and 'to' in transaction:
             print(f"{transaction['from']} -> {transaction['to']}")
         elif 'from' in transaction:
