@@ -45,7 +45,7 @@ def transaction_descriptions(transaction: list) -> Iterator[str]:
 descriptions = transaction_descriptions(transaction)
 try:
     for _ in range(5):
-        print(next(descriptions))
+        (next(descriptions))
 except StopIteration:
     "Больше нет транзакций."
 

@@ -5,7 +5,7 @@ from src.processing import filter_by_state, sort_by_date
 from src.generators import filter_by_currency
 from src.description import search_transactions
 from masks import get_mask_card_number
-from widget import get_date
+from widget import get_date, mask_account_card
 
 file_name = r"../data/transactions.csv"
 file_path = r"../data/transactions_excel.xlsx"
@@ -100,7 +100,7 @@ def main():
     print(masked_transactions[:5])
 
     for transaction in transactions:
-        date = transaction['date']
+
         print(f"{transaction['date']} {transaction['description']}")
         if 'from' in transaction and 'to' in transaction:
             print(f"{transaction['from']} -> {transaction['to']}")
@@ -111,8 +111,34 @@ def main():
         print(
             f"Сумма: {transaction['operationAmount']['amount']} {transaction['operationAmount']['currency']['name']}\n")
 
-    if not transactions:
-        print("Программа: Не найдено ни одной транзакции, подходящей под ваши условия фильтрации")
+    for transaction in transactions:
+
+        print(f"{get_date(transaction['date'])} {transaction['description']}")
+        if 'from' in transaction and 'to' in transaction:
+            print(f"{mask_account_card(transaction['from'])} -> {mask_account_card(transaction['to'])}")
+        elif 'from' in transaction:
+            print(mask_account_card(transaction['from']))
+        elif 'to' in transaction:
+            print(mask_account_card(transaction['to']))
+        print(
+            f"Сумма: {transaction['operationAmount']['amount']} {transaction['operationAmount']['currency']['name']}\n")
+
+    for transaction in transactions:
+        print(f"{get_date(transaction['date'])} {transaction['description']}")
+    if 'from' in transaction and 'to' in transaction:
+        print(f"{mask_account_card(transaction['from'])} -> {mask_account_card(transaction['to'])}")
+    elif 'from' in transaction:
+        print(mask_account_card(transaction['from']))
+    elif 'to' in transaction:
+        print(mask_account_card(transaction['to']))
+    if transaction.get('amount'):
+        print(f"Сумма: {transaction['amount']} {transaction['currency_code']}\n")
+    else:
+        print(
+            f"Сумма: {transaction['operationAmount']['amount']} {transaction['operationAmount']['currency']['name']}\n")
+
+        if not transactions:
+            print("Программа: Не найдено ни одной транзакции, подходящей под ваши условия фильтрации")
         return
 
 
