@@ -96,10 +96,11 @@ def main():
     print("Программа: Распечатываю итоговый список транзакций...\n")
     print("Всего банковских операций в выборке: {}".format(len(transactions)))
 
-    masked_transactions = get_mask_card_number('card_number')
-    print(masked_transactions[:])
+    #masked_transactions = get_mask_card_number('card_number')
+    #print(masked_transactions[:])
 
     for transaction in transactions:
+
         print(f"{get_date(transaction['date'])} {transaction['description']}")
         if 'from' in transaction and 'to' in transaction:
             print(f"{mask_account_card(transaction['from'])} -> {mask_account_card(transaction['to'])}")
@@ -107,7 +108,11 @@ def main():
             print(mask_account_card(transaction['from']))
         elif 'to' in transaction:
             print(mask_account_card(transaction['to']))
-        print(f"Сумма: {transaction['operationAmount']['amount']} {transaction['operationAmount']['currency']['name']}")
+        if transaction.get('amount'):
+            print(f"Сумма: {transaction['amount']} {transaction['currency_code']}\n")
+        else:
+            print(
+                f"Сумма: {transaction['operationAmount']['amount']} {transaction['operationAmount']['currency']['name']}\n")
 
         if not transactions:
             print("Программа: Не найдено ни одной транзакции, подходящей под ваши условия фильтрации")
