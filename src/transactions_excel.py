@@ -12,5 +12,5 @@ def open_transaction_excel(file_path):
         df = pd.read_excel(file_path)
         print(df.head())
         return df.to_dict(orient='records')
-    except Exception as e:
+    except Exception:
         return []

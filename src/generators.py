@@ -29,8 +29,10 @@ transaction = [{"id": 939719570,
 def filter_by_currency(transaction: List[Dict[Any, Any]], currency: str) -> Iterator[Dict[Any, Any]]:
     """Функция, которая принимает на вход список словарей, представляющих транзакции и валюту для фильтрации"""
     filtered_currency = list(
-    filter(lambda x: 'operationAmount' in x and 'currency' in x['operationAmount'] or x['currency_code'] == currency, transaction)
-)
+        filter(
+            lambda x: 'operationAmount' in x and 'currency' in x['operationAmount'] or x['currency_code'] == currency,
+            transaction)
+    )
     for trans in filtered_currency:
         yield trans
 

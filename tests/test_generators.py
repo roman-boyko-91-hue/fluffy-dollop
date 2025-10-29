@@ -81,7 +81,7 @@ def test_filter_by_currency_raises_value_error():
         }
     ])), ["Перевод организации", "Перевод со счета на счет"])
 ])
-def test_transaction_descriptions(result, expected):
+def test_transaction_descriptions_1(result, expected):
     """Тестирование функции с ожидаемым результатом"""
     assert sorted(result) == sorted(expected)
 

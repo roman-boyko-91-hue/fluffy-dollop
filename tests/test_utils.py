@@ -1,11 +1,10 @@
 import os
 import sys
-
-sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '../src')))
-
 from unittest.mock import mock_open, patch
 
 from src.utils import get_transactions_from_json
+
+sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '../src')))
 
 
 def test_load_transactions():

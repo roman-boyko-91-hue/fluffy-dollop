@@ -1,14 +1,13 @@
 import os
 import sys
 from unittest import mock
+from unittest.mock import patch
+
+import requests
 
 from src.external_api import external_api
 
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '../src')))
-
-from unittest.mock import patch
-
-import requests
 
 
 def get_api_info():

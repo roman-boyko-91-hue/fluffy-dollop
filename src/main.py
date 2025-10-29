@@ -1,10 +1,9 @@
-from src.utils import get_transactions_from_json
+from src.description import search_transactions
+from src.generators import filter_by_currency
+from src.processing import filter_by_state, sort_by_date
 from src.transactions_csv import read_file_csv
 from src.transactions_excel import open_transaction_excel
-from src.processing import filter_by_state, sort_by_date
-from src.generators import filter_by_currency
-from src.description import search_transactions
-from masks import get_mask_card_number
+from src.utils import get_transactions_from_json
 from widget import get_date, mask_account_card
 
 file_name = r"../data/transactions.csv"
@@ -96,8 +95,8 @@ def main():
     print("Программа: Распечатываю итоговый список транзакций...\n")
     print("Всего банковских операций в выборке: {}".format(len(transactions)))
 
-    #masked_transactions = get_mask_card_number('card_number')
-    #print(masked_transactions[:])
+    # masked_transactions = get_mask_card_number('card_number')
+    # print(masked_transactions[:])
 
     for transaction in transactions:
 
@@ -112,7 +111,8 @@ def main():
             print(f"Сумма: {transaction['amount']} {transaction['currency_code']}\n")
         else:
             print(
-                f"Сумма: {transaction['operationAmount']['amount']} {transaction['operationAmount']['currency']['name']}\n")
+                f"Сумма: {transaction['operationAmount']['amount']} {
+                transaction['operationAmount']['currency']['name']}\n")
 
         if not transactions:
             print("Программа: Не найдено ни одной транзакции, подходящей под ваши условия фильтрации")

@@ -1,5 +1,3 @@
-from unittest.mock import mock_open, patch
-
 from src.description import search_transactions
 from src.description_list import process_bank_operations
 

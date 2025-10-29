@@ -1,9 +1,9 @@
 import os
 import sys
 
-sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
-
 from src.decorators import log
+
+sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
 
 
 @log(filename=None)
@@ -19,7 +19,7 @@ def test_func():
 
 def test_func_caps(capsys):
     """Тестирование декоратора с помощью фикстутры 'capsys'"""
-    result = func(3, 8)
+    # result = func(3, 8)
     captured = capsys.readouterr()
     output = captured.out
     assert "Результат: 11" in output
