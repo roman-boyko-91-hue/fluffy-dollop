@@ -10,7 +10,8 @@ YYYY-MM-DD HH:MM:SS и возвращающая JSON-ответ с некими 
     result = {}
     greetings = get_greetings(date)
     result["greetings"] = greetings
-
+    card_info =
+    pass
     return result
 
 print(main("2025-11-05 00:00:00"))
