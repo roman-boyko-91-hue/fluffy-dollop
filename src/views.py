@@ -13,4 +13,4 @@ YYYY-MM-DD HH:MM:SS и возвращающая JSON-ответ с некими 
 
     return result
 
-print(main("2025-11-05 6:00:00"))
+print(main("2025-11-05 00:00:00"))
