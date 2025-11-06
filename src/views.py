@@ -14,7 +14,7 @@ YYYY-MM-DD HH:MM:SS и возвращающая JSON-ответ с некими 
     result = {}
     greetings = get_greetings(date)
     period_of_date = get_period_of_date(date)
-    sorted_period = get_sorted_period("../data/operations.xlsx", period_of_date)
+    sorted_period = get_sorted_period("./data/operations.xlsx", period_of_date)
     result["greetings"] = greetings
     json_date = json_dumps(date, ensure_ascii=False, indent=4)
 

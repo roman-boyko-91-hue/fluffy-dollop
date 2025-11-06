@@ -1,6 +1,7 @@
 from datetime import datetime
-
+import pandas as pd
 from pandas import DataFrame
+
 
 
 def get_greetings(date: datetime) -> str:
@@ -21,3 +22,11 @@ def get_period_of_date(date: str) -> list[str]:
 
 
 def get_sorted_period(path_to_file: str, date_period: list) -> DataFrame:
+    """Функция, которая принимает путь к эксель-файлу и период, а возвращает данные в этом периоде"""
+    df = pd.read_excel(path_to_file, sheet_name="Отчет по операциям")
+    df["Дата операции"] = pd.to_datetime(df["Дата операции"], dayfirst=True)
+    start_of_date = datetime.strptime(date_period[0], "%d.%m.%Y %H:%M:%S")
+    last_of_date = datetime.strptime(date_period[1], "%d.%m.%Y %H:%M:%S")
+
+    filter_df = df[start_of_date <= df["Дата операции"] <= last_of_date]
+    print(filter_df)
