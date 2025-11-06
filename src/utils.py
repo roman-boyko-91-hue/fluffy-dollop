@@ -21,7 +21,7 @@ def get_period_of_date(date: str) -> list[str]:
 
 
 def get_sorted_period(path_to_file: str, period_date: list) -> DataFrame:
-    """Функция, которая принимает путь к эксель-файлу и период, а возвращает данные в этом периоде"""
+    """Функция, которая принимает путь к эксель-файлу и периоду, а возвращает данные в этом периоде"""
     df = pd.read_excel(path_to_file, sheet_name="Отчет по операциям")
     df["Дата операции"] = pd.to_datetime(df["Дата операции"], dayfirst=True)
     start_of_date = datetime.strptime(period_date[0])
