@@ -1,6 +1,8 @@
+import json
 from datetime import datetime
 
 import pandas as pd
+from openpyxl.styles.builtins import currency
 from pandas import DataFrame
 
 
@@ -36,9 +38,9 @@ def get_sorted_period(path_to_file: str, period_date: list) -> DataFrame:
 
 
 def get_card_info(sorted_period: DataFrame) -> list[dict]:
-    """Функция, которая принимает DataFrame и возвращает список карт с расходами и кэшбеком"""
+    """Функция, которая принимает DataFrame и возвращает список карт с расходами и кэшбэком"""
     card_transaction = []
-    for _, row in sorted_period.iterrows():
+    for i, row in sorted_period.iterrows():
         card_data = {
             "last_digits": str(row["Номер карты"])[-4:],  # Последние 4 цифры
             "total_spent": row["Сумма операции с округлением"],
@@ -46,3 +48,37 @@ def get_card_info(sorted_period: DataFrame) -> list[dict]:
         }
         card_transaction.append(card_data)
     return card_transaction
+
+
+def get_top_transactions(sorted_period: DataFrame, get_top):
+    """Функция возвращает топ-5 транзакций по сумме платежа"""
+    top_pay_transaction = []
+    sorted_pay = sorted_period.sort_values(by="Сумма операции", ascending=True)
+    top_transactions = sorted_pay.head(get_top)
+    top_transaction_sorted = top_transactions[
+        [
+            "Дата платежа",
+            "Сумма операции",
+            "Категория",
+            "Описание"
+        ]
+    ]
+
+    for i, row in top_transaction_sorted.iterrows():
+        item = {
+            "date": f'{row["Дата платежа"]}',
+            "amount": f'{row["Сумма операции"]}',
+            "category": f'{row["Категория"]}',
+            "description": f'{row["Описание"]}',
+        }
+        top_pay_transaction.append(item)
+
+    return top_pay_transaction
+
+def get_currency_value(path_to_json: str) -> list[dict]:
+    """Функция, которая принимает на вход json-файл и возвращает курс валют"""
+    with open(path_to_json, "r", encoding="utf-8") as file:
+        data = json.load(file)
+        currencies = data["user_currencies"]
+        for currency in currencies:
+
