@@ -77,16 +77,26 @@ def get_top_transactions(sorted_period: DataFrame, get_top):
     return top_pay_transaction
 
 
-def get_currency_value(path_to_json: str, transaction) -> list[dict]:
+def get_currency(path_to_json: str, transaction) -> list[dict]:
     """Функция, которая принимает на вход json-файл и возвращает курс валют"""
-    currency_rate = []
+    currency_rates = []
     with open(path_to_json, "r", encoding="utf-8") as file:
         data = json.load(file)
         currencies = data["user_currencies"]
         for currency in currencies:
             func_api = external_api(transaction)
 
-        currency_rate.append({
+        currency_rates.append({
             "currency":
         }
         )
+        return currency_rates
+
+def get_stock_prices(path_to_json: str, transaction) -> list[dict]:
+    """Функция, которая принимает на вход json-файл и возвращает стоимость акций"""
+    stock_rate = []
+    with open(path_to_json, "r", encoding="utf-8") as file:
+        data = json.load(file)
+        stocks = data["user_stocks"]
+        for stock in stocks:
+            func_api = external_api(transaction)
