@@ -1,9 +1,11 @@
 import json
 from datetime import datetime
+from pstats import func_strip_path
 
 import pandas as pd
 from openpyxl.styles.builtins import currency
 from pandas import DataFrame
+from api import external_api
 
 
 def get_greetings(date: datetime) -> str:
@@ -75,10 +77,16 @@ def get_top_transactions(sorted_period: DataFrame, get_top):
 
     return top_pay_transaction
 
-def get_currency_value(path_to_json: str) -> list[dict]:
+def get_currency_value(path_to_json: str, transaction) -> list[dict]:
     """Функция, которая принимает на вход json-файл и возвращает курс валют"""
+    currency_rate = []
     with open(path_to_json, "r", encoding="utf-8") as file:
         data = json.load(file)
         currencies = data["user_currencies"]
         for currency in currencies:
+            func_api = external_api(transaction)
 
+        currency_rate.append({
+            "currency":
+        }
+        )
