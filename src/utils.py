@@ -1,4 +1,5 @@
 import json
+import calendar
 from datetime import datetime
 
 import pandas as pd
@@ -21,9 +22,11 @@ def get_greetings(date: datetime) -> str:
 
 
 def get_period_of_date(date: str) -> list[str]:
-    start_of_month = date.replace(day=1)
-    last_of_month = date.replace(day=28)
-    return [start_of_month, last_of_month]
+    """Возвращает [начало_месяца, конец_месяца] для переданной даты."""
+    start_of_month = date.replace(day=1, hour=0, minute=0, second=0)
+    last_day = calendar.monthrange(date.year, date.month)[1]
+    end_of_month = date.replace(day=last_day, hour=23, minute=59, second=59)
+    return [start_of_month, end_of_month]
 
 
 def get_sorted_period(path_to_file: str, period_date: list) -> DataFrame:
@@ -77,26 +80,28 @@ def get_top_transactions(sorted_period: DataFrame, get_top):
     return top_pay_transaction
 
 
-def get_currency(path_to_json: str, transaction) -> list[dict]:
+def get_currency(path_to_json: str) -> list[dict]:
     """Функция, которая принимает на вход json-файл и возвращает курс валют"""
     currency_rates = []
     with open(path_to_json, "r", encoding="utf-8") as file:
         data = json.load(file)
         currencies = data["user_currencies"]
         for currency in currencies:
-            func_api = external_api(transaction)
+            amount = 1
+            converted_amount = external_api(currency, amount)
+            currency_rates.append({"currency": currency, "converted_amount": converted_amount})
+    return currency_rates
 
-        currency_rates.append({
-            "currency":
-        }
-        )
-        return currency_rates
 
-def get_stock_prices(path_to_json: str, transaction) -> list[dict]:
+def get_stock_prices(path_to_json: str) -> list[dict]:
     """Функция, которая принимает на вход json-файл и возвращает стоимость акций"""
-    stock_rate = []
+    stock_rates = []
     with open(path_to_json, "r", encoding="utf-8") as file:
         data = json.load(file)
         stocks = data["user_stocks"]
         for stock in stocks:
-            func_api = external_api(transaction)
+            currency = stock
+            amount = 1
+            converted_amount = external_api(currency, amount)
+            stock_rates.append({"currency": currency, "converted_amount": converted_amount})
+        return stock_rates

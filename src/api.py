@@ -15,19 +15,8 @@ response = requests.request("GET", url, headers=headers, data=payload)
 status_code = response.status_code
 result = response.text
 
-load_dotenv()
-API_KEY = os.getenv('API_KEY')
 
-load_dotenv()
-API_KEY = os.getenv('API_KEY')
-
-
-def external_api(
-        transaction):  # Реализуем функцию, которая будет принимать транзакцию, а возвращать сумму после конвертации.
-
-    from_currency = transaction["operationAmount"]["currency"]["code"]
-    amount = transaction["operationAmount"]["amount"]
-
+def external_api(from_currency, amount):
     if from_currency == "RUB":
         return_amount = amount
         return return_amount
@@ -48,3 +37,7 @@ def external_api(
         result = response.json()
 
         return result["result"] if status_code == 200 else f"Ошибка {status_code}"
+
+
+load_dotenv()
+API_KEY = os.getenv('API_KEY')
