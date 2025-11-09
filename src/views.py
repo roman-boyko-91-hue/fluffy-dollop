@@ -2,7 +2,6 @@ import json
 from datetime import datetime
 from typing import Dict, Any
 
-from mypy.util import json_dumps
 
 from utils import get_greetings, get_period_of_date, get_sorted_period, get_card_info, get_top_transactions, \
     get_currency, get_stock_prices
@@ -33,7 +32,7 @@ YYYY-MM-DD HH:MM:SS и возвращающая JSON-ответ с некими 
 
     json_result = json.dumps({"date": date_str, "greetings": greetings, "card_info": card_info}, ensure_ascii=False,
                              indent=4)
-    print(json_result)
+    #print(json_result)
     result = {
         "date": date_str,
         "greetings": greetings,

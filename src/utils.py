@@ -3,7 +3,6 @@ import calendar
 from datetime import datetime
 
 import pandas as pd
-from openpyxl.styles.builtins import currency
 from pandas import DataFrame
 from api import external_api
 
