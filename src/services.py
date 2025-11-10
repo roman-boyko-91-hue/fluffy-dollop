@@ -3,7 +3,7 @@ import json
 import pandas as pd
 
 
-def cashback_analyze(file_path: str, year: int, month: int) -> dict[str, int]:
+def cashback_analyze(file_path: str, year: int, month: int) -> dict:
     """Функция, которая анализирует выгодные категории кэшбэка"""
     df = pd.read_excel(file_path)
     df["Дата операции"] = pd.to_datetime(df["Дата операции"], format="%d.%m.%Y %H:%M:%S")
