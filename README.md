@@ -1,16 +1,16 @@
-# Проект Homework_10_2
+# Проект Homework_14_1
 
 ## Описание:
 
-Проект Homework_13_2 - это проект домашнего задания
-в рамках 2 курса Разработка на Python
+Проект Homework_14_1 - это проект домашнего задания
+в рамках 4 курса Разработка на Python
 
 ## Установка:
 
 1. Клонируйте репозиторий:
 
 ```
-git clone https://github.com/roman-boyko-91-hue/Repository/tree/feature/homework_13_2
+git clone https://github.com/roman-boyko-91-hue/Repository/tree/feature/homework_14_1
 ```
 
 2. Установите зависимости:
@@ -25,17 +25,15 @@ poetry install
 poetry add --group dev pytest
 ```
 
-4. Установите библиотеку `pandas`
-
-```
-poetry add pandas
-```
-
 ## Использование
 
-1. Откройте файл `main.py`.
-2. Проверьте работу программы `main`.
-3. Откройте файл `test_new_func.py`.
+1. Откройте файл `category.py`.
+2. Проверьте работу программы `category`.
+3. Откройте файл `product.py`.
+4. Проверьте работу программы `product`.
+5. Откройте файл `utils.py`.
+6. Проверьте работу программ `utils`.
+3. Откройте модуль `tests`.
 4. Запустите тестирование функции через `pytest`.
 
 ## Документация:
