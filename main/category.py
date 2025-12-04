@@ -17,6 +17,9 @@ class Category:
         Category.category_count += 1
         Category.product_count += len(product) if product else 0
 
+    def add_product(self):
+        self.__product = product if product else []
+
 
 if __name__ == "__main__":
     product_1 = Product("Samsung Galaxy C23 Ultra",
