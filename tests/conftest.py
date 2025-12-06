@@ -31,3 +31,13 @@ def category():
              "price": 210000.0,
              "quantity": 8}]
     )
+
+
+@pytest.fixture
+def price():
+    return Product(
+        "Samsung Galaxy C23 Ultra",
+        "256GB, Серый цвет, 200MP камера",
+        180000.0,
+        5
+    )

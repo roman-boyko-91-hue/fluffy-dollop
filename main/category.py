@@ -13,12 +13,25 @@ class Category:
         """Инициализация"""
         self.name = name
         self.description = description
-        self.product = product if product else []
+        self.__product = product if product else []
         Category.category_count += 1
         Category.product_count += len(product) if product else 0
 
-    def add_product(self):
-        self.__product = product if product else []
+    def add_product(self, product: Product):
+        """Запись списка товаров в приватный атрибут"""
+        self.__product.append(product)
+        Category.product_count += 1
+
+    @property
+    def product(self) -> str:
+        """Геттер для вывода списка товаров в нужном формате"""
+        if not self.__product:
+            return "В этой категории нет товаров"
+
+        product_list = []
+        for product in self.__product:
+           product_list.append(f"{"name"}, {"price"} руб. Остаток: {"quantity"} шт.\n")
+        return product_list
 
 
 if __name__ == "__main__":
@@ -33,4 +46,4 @@ if __name__ == "__main__":
                         8
                         )
 
-    category = Category("name", "description", [product_1, product_2])
+    сategory = Category("name", "description", [product_1, product_2])
