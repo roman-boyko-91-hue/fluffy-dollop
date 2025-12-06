@@ -1,6 +1,6 @@
-from tests.conftest import category, product, price
+import pytest
 
 
-def test_price_normal(category):
-    """Проверка ценового значения"""
-    assert price == 180000.0
+def test_category_starts_with_no_product(empty_category):
+    assert empty_category.name == "Default Category"
+    assert empty_category.product == "В этой категории нет товаров"
