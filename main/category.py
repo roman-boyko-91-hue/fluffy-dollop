@@ -9,27 +9,27 @@ class Category:
     category_count = 0
     product_count = 0
 
-    def __init__(self, name, description, product=None):
+    def __init__(self, name, description, products):
         """Инициализация"""
+        self.__products = products
         self.name = name
         self.description = description
-        self.__product = product if product else []
         Category.category_count += 1
-        Category.product_count += len(product) if product else 0
+        Category.product_count += len(self.__products)
 
     def add_product(self, product: Product):
         """Запись списка товаров в приватный атрибут"""
-        self.__product.append(product)
+        self.__products.append(product)
         Category.product_count += 1
 
     @property
     def product(self) -> str:
         """Геттер для вывода списка товаров в нужном формате"""
-        if not self.__product:
+        if not self.__products:
             return "В этой категории нет товаров"
 
         product_list = []
-        for product in self.__product:
+        for product in self.__products:
            product_list.append(f"{product.name}, {product.price} руб. Остаток: {product.quantity} шт.")
         return "\n".join(product_list)
 
