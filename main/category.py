@@ -23,7 +23,7 @@ class Category:
         Category.product_count += 1
 
     @property
-    def product(self) -> str:
+    def products(self) -> str:
         """Геттер для вывода списка товаров в нужном формате"""
         if not self.__products:
             return "В этой категории нет товаров"
