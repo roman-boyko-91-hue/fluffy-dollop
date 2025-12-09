@@ -9,8 +9,27 @@ class Product:
         """Инициализация"""
         self.name = name
         self.description = description
-        self.price = price
+        self.__price = price
         self.quantity = quantity if quantity else None
+
+    def __repr__(self):
+        """Метод для информативного отображения"""
+        return f"Product({self.name}, {self.description}, {self.price}, {self.quantity})\n"
+
+    @classmethod
+    def new_product(cls, product_dict):
+        return cls(**product_dict)
+
+    @property
+    def price(self):
+        return self.__price
+
+    @price.setter
+    def price(self, price):
+        if price <= 0:
+            print("Цена не должна быть нулевая или отрицательная")
+        else:
+            self.__price = price
 
 
 if __name__ == "__main__":
