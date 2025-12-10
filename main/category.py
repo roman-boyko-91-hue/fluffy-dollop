@@ -11,18 +11,14 @@ class Category:
 
     def __init__(self, name, description, products):
         """Инициализация"""
-        self.__products_count = 0
-        self.__products = products
+        self.__products = products if products is not None else []
         self.name = name
         self.description = description
-        Category.category_count += 1
-        Category.product_count += len(self.__products)
 
     def __str__(self):
-        return f"{self.name}, {self.product_count} шт. Общее количество товаров на складе: {len(self.__products_count)}"
+        return f"{self.name}, {len(self.__products)} шт. Общее количество товаров на складе: {len(self.__products)}"
 
-    def add_product(self, product: Product):
-        """Запись списка товаров в приватный атрибут"""
+    def add_product(self, product):
         self.__products.append(product)
         Category.product_count += 1
 
@@ -34,7 +30,7 @@ class Category:
 
         product_list = []
         for product in self.__products:
-           product_list.append(f"{product.name}, {product.price} руб. Остаток: {product.quantity} шт.")
+            product_list.append(f"{product.name}, {product.price} руб. Остаток: {product.quantity} шт.")
         return "\n".join(product_list)
 
 

@@ -1,7 +1,6 @@
-import pytest
+def test_str_category(sample_category, sample_product1, sample_product2):
+    sample_category.add_product(sample_product1)
+    sample_category.add_product(sample_product2)
+    expected_str = "Product 1, 3 шт. Общее количество товаров на складе: 3"
 
-
-def test_category_starts_with_no_product(empty_category):
-    assert empty_category.name == "Default Category"
-    assert empty_category.product == "В этой категории нет товаров"
-    assert empty_category.description == "Description"
+    assert str(sample_category) == expected_str
