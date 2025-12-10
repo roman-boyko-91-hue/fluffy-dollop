@@ -12,6 +12,12 @@ class Product:
         self.__price = price
         self.quantity = quantity if quantity else None
 
+    def __str__(self):
+        return f"{self.name}, {self.price} руб. Остаток: {self.quantity} шт."
+
+    def __add__(self, other):
+        return (self.price * self.quantity) + (other.price * other.quantity)
+
     def __repr__(self):
         """Метод для информативного отображения"""
         return f"Product({self.name}, {self.description}, {self.price}, {self.quantity})\n"
