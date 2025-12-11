@@ -16,7 +16,8 @@ class Category:
         self.description = description
 
     def __str__(self):
-        return f"{self.name}, {len(self.__products)} шт. Общее количество товаров на складе: {len(self.__products)}"
+        all_quantity = sum(product.quantity for product in self.__products)
+        return f"{self.name}, общее количество продуктов: {all_quantity} шт."
 
     def add_product(self, product):
         self.__products.append(product)
