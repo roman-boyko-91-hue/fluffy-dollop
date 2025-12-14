@@ -1,17 +1,25 @@
-import pytest
-from main.product import Product
+def test_smartphone_product_init(Smartphone):
+    """Тестируем правильность инициализации объекта"""
+    assert Smartphone.name == "Iphone 15"
+    assert Smartphone.description == "512GB, Gray space"
+    assert Smartphone.price == 210000.0
+    assert Smartphone.memory == 512
+    assert Smartphone.model == "15"
+    assert Smartphone.color == "Gray space"
 
 
-def test_product_str():
-    """Тест проверяет, что метод __str__ возвращает ожидаемую строку"""
-    product = Product(name="Test Product", description="Test Description", price=100, quantity=5)
-    expected_str = "Test Product, 100 руб. Остаток: 5 шт."
-    assert str(product) == expected_str
+def test_lamngrass_init(LawnGrass):
+    """Тестируем правильность инициализации объекта"""
+    assert LawnGrass.name == "Газонная трава"
+    assert LawnGrass.description == "Элитная трава для газона"
+    assert LawnGrass.price == 500
+    assert LawnGrass.germination_period == "7 дней"
+    assert LawnGrass.country == "Россия"
 
 
-def test_product_add():
-    """Сумма (через метод __add__) равна ожидаемому значению"""
-    product1 = Product(name="Product 1", description="Description 1", price=100, quantity=2)
-    product2 = Product(name="Product 2", description="Description 2", price=150, quantity=3)
-    expected_total = (100 * 2) + (150 * 3)
-    assert product1 + product2 == expected_total
+def test_smartphone_product_add(smartphone_1, smartphone_2):
+    assert smartphone_1 + smartphone_2 == 241000
+
+
+def test_lamngrass__add(grass1, grass2):
+    assert grass1 + grass2 == 241000

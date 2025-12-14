@@ -1,5 +1,6 @@
 from typing import Any
-from product import Product
+
+from main.product import Product
 
 
 class LawnGrass(Product):
