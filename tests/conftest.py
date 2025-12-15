@@ -3,8 +3,8 @@ import pytest
 import sys
 import os
 
-from lawngrass import LawnGrass
-from smartphone import Smartphone
+from main.lawngrass import LawnGrass
+from main.smartphone import Smartphone
 
 sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
 

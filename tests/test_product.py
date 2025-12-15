@@ -1,5 +1,5 @@
-from lawngrass import LawnGrass
-from smartphone import Smartphone
+from main.lawngrass import LawnGrass
+from main.smartphone import Smartphone
 
 
 def test_smartphone_product_init():
