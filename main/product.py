@@ -16,10 +16,9 @@ class Product:
         return f"{self.name}, {self.price} руб. Остаток: {self.quantity} шт."
 
     def __add__(self, other):
-        if type(other) in Product:
-            return (self.price * self.quantity) + (other.price * other.quantity)
-
-    raise TypeError
+        if not isinstance(other, Product):
+            raise TypeError("Можно складывать только объекты класса Product или его наследники")
+        return (self.__price * self.quantity) + (other.__price * other.quantity)
 
     def __repr__(self):
         """Метод для информативного отображения"""

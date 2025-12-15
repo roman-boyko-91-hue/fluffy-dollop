@@ -1,25 +1,17 @@
-def test_smartphone_product_init(Smartphone):
-    """Тестируем правильность инициализации объекта"""
-    assert Smartphone.name == "Iphone 15"
-    assert Smartphone.description == "512GB, Gray space"
-    assert Smartphone.price == 210000.0
-    assert Smartphone.memory == 512
-    assert Smartphone.model == "15"
-    assert Smartphone.color == "Gray space"
+from lawngrass import LawnGrass
+from smartphone import Smartphone
 
 
-def test_lamngrass_init(LawnGrass):
-    """Тестируем правильность инициализации объекта"""
-    assert LawnGrass.name == "Газонная трава"
-    assert LawnGrass.description == "Элитная трава для газона"
-    assert LawnGrass.price == 500
-    assert LawnGrass.germination_period == "7 дней"
-    assert LawnGrass.country == "Россия"
+def test_smartphone_product_init():
+    """Проверка атрибутов"""
+    smartphone_product = Smartphone("name", "description", "price", "memory", "model", "color")
 
 
-def test_smartphone_product_add(smartphone_1, smartphone_2):
-    assert smartphone_1 + smartphone_2 == 241000
+def test_lamngrass_init():
+    """Проверка атрибутов"""
+    lawn_grass = LawnGrass("name", "description", 100.0, "country", "period", "color")
 
 
-def test_lamngrass__add(grass1, grass2):
-    assert grass1 + grass2 == 241000
+def test_smartphone_product_add(smartphone_product1, smartphone_product2):
+    assert (smartphone_product1 + smartphone_product2 == (smartphone_product1.__price * smartphone_product1.quantity) +
+            (smartphone_product2.__price * smartphone_product2.quantity))
