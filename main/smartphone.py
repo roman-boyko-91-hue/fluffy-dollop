@@ -1,4 +1,4 @@
-from product import Product
+from main.product import Product
 
 
 class Smartphone(Product):
