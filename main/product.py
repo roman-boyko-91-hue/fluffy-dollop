@@ -5,7 +5,7 @@ class Product:
     price: int
     quantity: int
 
-    def __init__(self, name, description, price, quantity=None):
+    def __init__(self, name, description, price, quantity=0):
         """Инициализация"""
         self.name = name
         self.description = description
@@ -18,7 +18,7 @@ class Product:
     def __add__(self, other):
         if not isinstance(other, Product):
             raise TypeError("Можно складывать только объекты класса Product или его наследники")
-        return (self.__price * self.quantity) + (other.__price * other.quantity)
+        return (self.price * self.quantity) + (other.price * other.quantity)
 
     def __repr__(self):
         """Метод для информативного отображения"""
