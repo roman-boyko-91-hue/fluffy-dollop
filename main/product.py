@@ -9,8 +9,8 @@ class Product:
         """Инициализация"""
         self.name = name
         self.description = description
-        self.__price = price
-        self.quantity = quantity if quantity else None
+        self.__price = float(price)
+        self.quantity = int(quantity) if quantity else None
 
     def __str__(self):
         return f"{self.name}, {self.price} руб. Остаток: {self.quantity} шт."
