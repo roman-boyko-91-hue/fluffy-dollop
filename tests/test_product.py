@@ -1,5 +1,17 @@
-def test_product(product):
-    assert product.name == "Samsung Galaxy C23 Ultra"
-    assert product.description == "256GB, Серый цвет, 200MP камера"
-    assert product.price == 180000.0
-    assert product.quantity == 5
+from main.lawngrass import LawnGrass
+from main.smartphone import Smartphone
+
+
+def test_smartphone_product_init():
+    """Проверка атрибутов"""
+    smartphone_product = Smartphone("name", "description", "price", "memory", "model", "color")
+
+
+def test_lamngrass_init():
+    """Проверка атрибутов"""
+    lawn_grass = LawnGrass("name", "description", 100.0, "country", "period", "color")
+
+
+def test_smartphone_product_add(smartphone_product1, smartphone_product2):
+    assert (smartphone_product1 + smartphone_product2 == (smartphone_product1.__price * smartphone_product1.quantity) +
+            (smartphone_product2.__price * smartphone_product2.quantity))
