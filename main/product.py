@@ -1,6 +1,7 @@
 from main.baseproduct import BaseProduct
 from main.mixin_print import MixinPrint
 
+
 class Product(BaseProduct, MixinPrint):
     """Наименование класса"""
     name: str
@@ -31,6 +32,9 @@ class Product(BaseProduct, MixinPrint):
     @classmethod
     def new_product(cls, product_dict):
         return cls(**product_dict)
+
+    def base_product(cls, *args, **kwargs):
+        pass
 
     @property
     def price(self):
