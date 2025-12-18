@@ -1,4 +1,7 @@
-class Product:
+from main.baseproduct import BaseProduct
+from main.mixin_print import MixinPrint
+
+class Product(BaseProduct, MixinPrint):
     """Наименование класса"""
     name: str
     description: str
@@ -11,6 +14,7 @@ class Product:
         self.description = description
         self.__price = float(price)
         self.quantity = int(quantity) if quantity else None
+        super().__init__()
 
     def __str__(self):
         return f"{self.name}, {self.price} руб. Остаток: {self.quantity} шт."
