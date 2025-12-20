@@ -4,12 +4,6 @@ from abc import ABC, abstractmethod
 class BaseProduct(ABC):
     """Базовый абстрактный класс"""
 
-    def __init__(self, name: str, description: str, quantity: int) -> None:
-        """Инициализация продукта."""
-        self.name = name
-        self.description = description
-        self.quantity = quantity
-
     @abstractmethod
     def __str__(self) -> str:
         pass
