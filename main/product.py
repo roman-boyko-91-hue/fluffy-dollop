@@ -11,12 +11,12 @@ class Product(BaseProduct, MixinPrint):
 
     def __init__(self, name, description, price, quantity=0):
         """Инициализация"""
+
         self.name = name
         self.description = description
         self.__price = float(price)
         self.quantity = int(quantity) if quantity else None
-        super().__init__(name, description, quantity)
-        print(repr(self))
+        super().__init__()
 
     def __str__(self):
         return f"{self.name}, {self.price} руб. Остаток: {self.quantity} шт."
@@ -28,7 +28,7 @@ class Product(BaseProduct, MixinPrint):
 
     def __repr__(self):
         """Метод для информативного отображения"""
-        return f"Product({self.name}, {self.description}, {self.price}, {self.quantity})\n"
+        return f"Product({self.name}, {self.description}, {self.price}, {self.quantity})"
 
     @classmethod
     def new_product(cls, name, description, quantity, price):
