@@ -1,4 +1,5 @@
 class MixinPrint:
+    """Класс-миксин для печати в консоль информации в читаемом виде"""
     def __init__(self):
         print(repr(self))
 

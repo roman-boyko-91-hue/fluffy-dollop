@@ -1,3 +1,5 @@
+from abc import abstractmethod
+
 from main.baseproduct import BaseProduct
 from main.mixin_print import MixinPrint
 
@@ -15,7 +17,8 @@ class Product(BaseProduct, MixinPrint):
         self.description = description
         self.__price = float(price)
         self.quantity = int(quantity) if quantity else None
-        super().__init__()
+        super().__init__(name, description, quantity)
+        print(repr(self))
 
     def __str__(self):
         return f"{self.name}, {self.price} руб. Остаток: {self.quantity} шт."
@@ -30,8 +33,10 @@ class Product(BaseProduct, MixinPrint):
         return f"Product({self.name}, {self.description}, {self.price}, {self.quantity})\n"
 
     @classmethod
-    def new_product(cls, product_dict):
-        return cls(**product_dict)
+    def new_product(cls, name, description, quantity, price):
+        instance = cls(name, description, quantity)
+        instance.price = price
+        return instance
 
     def base_product(cls, *args, **kwargs):
         pass
