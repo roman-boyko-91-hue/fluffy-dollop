@@ -1,7 +1,7 @@
-import pytest
-
-import sys
 import os
+import sys
+
+import pytest
 
 from main.product import Product
 

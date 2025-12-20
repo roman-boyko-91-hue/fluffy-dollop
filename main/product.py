@@ -1,5 +1,3 @@
-from abc import abstractmethod
-
 from main.baseproduct import BaseProduct
 from main.mixin_print import MixinPrint
 
