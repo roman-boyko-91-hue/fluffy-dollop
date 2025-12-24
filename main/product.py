@@ -14,8 +14,13 @@ class Product(BaseProduct, MixinPrint):
 
         self.name = name
         self.description = description
+        if price < 0:
+            raise ValueError("Цена не может быть отрицательной!")
         self.__price = float(price)
-        self.quantity = int(quantity) if quantity else None
+        if quantity > 0:
+            self.quantity = int(quantity)
+        else:
+            raise ValueError("Товар с нулевым количеством не может быть добавлен")
         super().__init__()
 
     def __str__(self):

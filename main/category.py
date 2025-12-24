@@ -37,6 +37,20 @@ class Category:
             product_list.append(f"{product.name}, {product.price} руб. Остаток: {product.quantity} шт.")
         return "\n".join(product_list)
 
+    def middle_category(self):
+        try:
+            # Проверка, есть ли товары в категории
+            if len(self.__products) == 0:
+                raise ZeroDivisionError("Нет товаров в категории")
+
+            # Подсчет средней цены
+            total_price = sum(product.price for product in self.__products)
+            middle_price = total_price / len(self.__products)
+            return middle_price
+        except ZeroDivisionError:
+            # Возвращаем 0, если нет товаров
+            return 0
+
 
 if __name__ == "__main__":
     product_1 = Product("Samsung Galaxy C23 Ultra",
