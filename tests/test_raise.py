@@ -34,11 +34,3 @@ def test_square_with_invalid_data(input_value):
     """Тест с невалидным аргументом"""
     with pytest.raises(TypeError):
         Product(input_value)
-
-@pytest.mark.parametrize("price", [-1, 0, 0.01])
-def test_process_price_at_boundaries(price, self=None):
-    if price < 0:
-        with pytest.raises(ValueError):
-            self.price(price)
-    else:
-        assert self.price(price) == price
