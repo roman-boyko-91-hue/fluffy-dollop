@@ -1,3 +1,6 @@
+from src.utils import sort_vacancies, get_top_vacancies, get_vacancies_by_salary, print_vacancies
+
+
 def user_interaction():
     platforms = ["HeadHunter"]
     search_query = input("Введите поисковый запрос: ")
