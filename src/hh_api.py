@@ -9,6 +9,10 @@ class BaseAPI(ABC):
     def get_vacancies(self, query, area, pages):
         pass
 
+    @abstractmethod
+    def __connect(self, headers):
+        pass
+
 
 class HeadHunterApi(BaseAPI):
     def __init__(self, query, area):

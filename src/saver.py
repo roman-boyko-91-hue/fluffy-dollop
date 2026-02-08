@@ -1,5 +1,16 @@
+from abc import ABC, abstractmethod
 import json
 import os
+
+
+class BaseSaver(ABC):
+    @abstractmethod
+    def add_vacancy(self, new_vacancy):
+        pass
+
+    @abstractmethod
+    def delete_vacancy(self, vacancy_id):
+        pass
 
 
 class JSONSaver:

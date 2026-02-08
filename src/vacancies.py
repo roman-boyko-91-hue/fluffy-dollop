@@ -1,4 +1,6 @@
 class Vacancy():
+    __slots__ = ('name', 'salary', 'url', 'description')
+
     def __init__(self, name, salary, url, description):
         self.name = name
         self.salary = self.validate_salary(salary)
