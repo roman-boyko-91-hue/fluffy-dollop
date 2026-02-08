@@ -1,6 +1,4 @@
-import os
 import json
-import pytest
 
 
 def test_add_vacancy(setup_saver):
@@ -9,7 +7,7 @@ def test_add_vacancy(setup_saver):
     vacancy = {'id': 1, 'title': 'Python Developer'}
     saver.add_vacancy(vacancy)
 
-    with open(saver._JSONSaver__file_name, 'r', encoding='utf-8') as file:
+    with open(saver._file_path, 'r', encoding='utf-8') as file:
         data = json.load(file)
 
     assert len(data) == 1
@@ -24,7 +22,7 @@ def test_delete_vacancy(setup_saver):
     saver.add_vacancy(vacancy)
     saver.delete_vacancy(1)
 
-    with open(saver._JSONSaver__file_name, 'r', encoding='utf-8') as file:
+    with open(saver._file_path, 'r', encoding='utf-8') as file:
         data = json.load(file)
 
     assert len(data) == 0

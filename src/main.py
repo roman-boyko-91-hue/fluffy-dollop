@@ -1,4 +1,4 @@
-from src.utils import sort_vacancies, get_top_vacancies, get_vacancies_by_salary, print_vacancies
+from src.utils import get_top_vacancies, get_vacancies_by_salary, print_vacancies, sort_vacancies
 
 
 def user_interaction():
