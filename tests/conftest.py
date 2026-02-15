@@ -1,4 +1,5 @@
 import pytest
+from unicodedata import category
 
 from main.category import Category
 from main.product import Product
@@ -15,19 +16,25 @@ def product():
 
 
 @pytest.fixture
-def category():
-    return Category(
-        "Смартфоны",
-        "Смартфоны, как средство не только коммуникации, но и получение дополнительных функций для удобства жизни",
-        product=[
-            {
-                "name": "Samsung Galaxy C23 Ultra",
-                "description": "256GB, Серый цвет, 200MP камера",
-                "price": 180000.0,
-                "quantity": 5
-            },
-            {"name": "Iphone 15",
-             "description": "512GB, Gray space",
-             "price": 210000.0,
-             "quantity": 8}]
-    )
+def empty_category():
+    """Фикстура для создания объекта Category."""
+    return Category(name="Default Category", description="Description", product=[])
+
+
+@pytest.fixture
+def sample_product():
+    return Product(name="Продукт", description="Описание", price=100, quantity=10)
+
+
+@pytest.fixture
+def sample_category(products=None):
+    category = Category(name="Product 1", description="description", products=[products])
+    return category
+
+@pytest.fixture
+def sample_product1():
+    return Product(name="Product 1", price=100, description="description")
+
+@pytest.fixture
+def sample_product2():
+    return Product(name="Product 2", price=200, description="description")

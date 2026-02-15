@@ -1,19 +1,6 @@
-def test_category(category):
-    assert category.name == "Смартфоны"
-    assert category.description == "Смартфоны, как средство не только коммуникации, но и получение дополнительных функций для удобства жизни"
-    assert category.product == [
-        {
-            "name": "Samsung Galaxy C23 Ultra",
-            "description": "256GB, Серый цвет, 200MP камера",
-            "price": 180000.0,
-            "quantity": 5
-        },
-        {
-            "name": "Iphone 15",
-            "description": "512GB, Gray space",
-            "price": 210000.0,
-            "quantity": 8
-        }
-    ]
-    assert category.category_count == 1
-    assert category.product_count == 2
+def test_str_category(sample_category, sample_product1, sample_product2):
+    sample_category.add_product(sample_product1)
+    sample_category.add_product(sample_product2)
+    expected_str = "Product 1, 3 шт. Общее количество товаров на складе: 3"
+
+    assert str(sample_category) == expected_str
