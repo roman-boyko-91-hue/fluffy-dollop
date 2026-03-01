@@ -1,16 +1,16 @@
-# Проект Homework_10_2
+# Проект Курсовая 3
 
 ## Описание:
 
-Проект Homework_13_2 - это проект домашнего задания
-в рамках 2 курса Разработка на Python
+Проект Курсовая - это проект домашнего задания
+в рамках 5 курса Разработка на Python
 
 ## Установка:
 
 1. Клонируйте репозиторий:
 
 ```
-git clone https://github.com/roman-boyko-91-hue/Repository/tree/feature/homework_13_2
+git clone https://github.com/roman-boyko-91-hue/fluffy-dollop origin/tree/main/coursework_3
 ```
 
 2. Установите зависимости:
@@ -19,24 +19,22 @@ git clone https://github.com/roman-boyko-91-hue/Repository/tree/feature/homework
 poetry install
 ```
 
-3. Установите фреймворк pytest через Poetry
+3. Установите библиотеку 'psycopg2'
 
 ```
-poetry add --group dev pytest
+pip install psycopg2
 ```
 
-4. Установите библиотеку `pandas`
+4. Установите библиотеку `requests`
 
 ```
-poetry add pandas
+pip install requests
 ```
 
 ## Использование
 
-1. Откройте файл `main.py`.
-2. Проверьте работу программы `main`.
-3. Откройте файл `test_new_func.py`.
-4. Запустите тестирование функции через `pytest`.
+1. Откройте модуль `src`.
+2. Проверьте работу программ.
 
 ## Документация:
 
