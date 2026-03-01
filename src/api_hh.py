@@ -1,3 +1,5 @@
+from datetime import time
+
 import requests
 
 
@@ -52,3 +54,45 @@ if employer_id:
         print(f"{v['title']} - {v['url']}")
 else:
     print("Работодатель не найден.")
+
+# Список интересующих компаний
+COMPANY_NAMES = [
+    "Яндекс", "Сбер", "Т-Банк", "VK", "Ozon",
+    "Авито", "Kaspersky", "МТС", "Альфа-Банк", "X5 Group"
+]
+
+
+def get_employer_ids(names):
+    """Находит ID компаний по их названиям"""
+    employer_ids = {}
+    url = "https://api.hh.ru"
+
+    for name in names:
+        params = {'text': name, 'only_with_vacancies': True}
+        # Указываем User-Agent (требование API hh.ru)
+        headers = {'User-Agent': 'MyVacancyApp/1.0 (contact@example.com)'}
+
+        response = requests.get(url, params=params, headers=headers)
+        if response.status_code == 200:
+            items = response.json().get('items', [])
+            if items:
+                # Берем первый результат поиска (самый релевантный)
+                employer_ids[items[0]['name']] = items[0]['id']
+        time.sleep(0.1)  # Небольшая задержка, чтобы не превышать лимиты
+    return employer_ids
+
+
+def get_vacancies(employer_id):
+    """Получает до 5 последних вакансий для конкретного ID работодателя"""
+    url = "https://api.hh.ru"
+    params = {
+        'employer_id': employer_id,
+        'per_page': 5,  # Ограничимся 5 вакансиями для примера
+        'order_by': 'publication_time'
+    }
+    headers = {'User-Agent': 'MyVacancyApp/1.0'}
+
+    response = requests.get(url, params=params, headers=headers)
+    if response.status_code == 200:
+        return response.json().get('items', [])
+    return []
