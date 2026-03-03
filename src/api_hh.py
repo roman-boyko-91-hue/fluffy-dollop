@@ -1,9 +1,11 @@
-from datetime import time
+import time
+from typing import Optional
+from table_BD import save_to_db
 
 import requests
 
 
-def get_employer_id(company_name):
+def get_employer_id(company_name: str) -> tuple[Optional[int], Optional[str]]:
     """Получение данных о работодателях и их вакансиях с сайта hh.ru."""
     url = "https://api.hh.ru/employers"
     params = {
@@ -96,3 +98,13 @@ def get_vacancies(employer_id):
     if response.status_code == 200:
         return response.json().get('items', [])
     return []
+
+
+def load_and_save_data(company_names):
+    for company in company_names:
+        employer_id, _ = get_employer_id(company)
+        if employer_id:
+            vacancies = get_vacancies_by_employer(employer_id)
+            employers_data = [{'id': employer_id, 'name': company, 'url': ''}]
+            save_to_db(employers_data, vacancies)
+        time.sleep(0.1)  # Задержка между запросами

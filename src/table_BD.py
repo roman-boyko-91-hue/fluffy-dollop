@@ -1,9 +1,28 @@
 import psycopg2
+from psycopg2 import sql
+from dotenv import load_dotenv
+import os
+
+load_dotenv()
+
+PASSWORD = os.getenv('DB_PASSWORD')
+
+
+# Функция для создания базы данных
+def create_database(db_name):
+    conn = psycopg2.connect(dbname='postgres', user='postgres', password='your_password', host='localhost')
+    conn.autocommit = True
+    cur = conn.cursor()
+    cur.execute(sql.SQL("CREATE DATABASE {};").format(sql.Identifier(db_name)))
+    cur.close()
+    conn.close()
+    print(f"База данных {db_name} успешно создана.")
+
 
 db_config = {
     "dbname": "hh_database",
     "user": "postgres",
-    "password": "260980",
+    "password": "DB_PASSWORD",
     "host": "localhost",
     "port": "5432"
 }
