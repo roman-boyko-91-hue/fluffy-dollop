@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Прототип магазина</title>
+    <!-- Подключение Bootstrap 5 CSS -->
+    <link href="css/bootstrap.min.css" rel="stylesheet" />
+    <!-- Подключение иконок Bootstrap Icons -->
+    <link rel="stylesheet" href="https://css/bootstrap.min.css">
+    <link href="style.css" rel="stylesheet" />
+</head>
+<body>
+
+    <!-- Боковое меню -->
+    <div class="sidebar d-flex flex-column p-3">
+        <a href="/" class="d-flex align-items-center mb-3 mb-md-0 me-md-auto text-white text-decoration-none">
+            <i class="bi bi-bootstrap-fill me-2 fs-4"></i>
+            <span class="fs-4">Меню</span>
+        </a>
+        <hr>
+        <ul class="nav nav-pills flex-column mb-auto">
+            <li class="nav-item">
+                <a href="#" class="nav-link active" aria-current="page">
+                    <i class="bi bi-house-door me-2"></i> Главная
+                </a>
+            </li>
+            <li>
+                <a href="#" class="nav-link">
+                    <i class="bi bi-grid me-2"></i> Категории
+                </a>
+            </li>
+            <li>
+                <a href="#" class="nav-link">
+                    <i class="bi bi-cart me-2"></i> Заказы
+                </a>
+            </li>
+            <li>
+                <a href="#" class="nav-link">
+                    <i class="bi bi-person me-2"></i> Контакты
+                </a>
+            </li>
+        </ul>
+        <hr>
+        <div class="dropdown">
+            <a href="#" class="d-flex align-items-center text-white text-decoration-none dropdown-toggle" id="dropdownUser1" data-bs-toggle="dropdown" aria-expanded="false">
+                <img src="https://github.com" alt="" width="32" height="32" class="rounded-circle me-2">
+                <strong>Пользователь</strong>
+            </a>
+            <ul class="dropdown-menu dropdown-menu-dark text-small shadow" aria-labelledby="dropdownUser1">
+                <li><a class="dropdown-item" href="#">Профиль</a></li>
+                <li><hr class="dropdown-divider"></li>
+                <li><a class="dropdown-item" href="#">Выход</a></li>
+            </ul>
+        </div>
+    </div>
+
+    <!-- Основной контент -->
+    <main class="main-content p-5">
+        <div class="container">
+            <div class="text-center mb-5">
+                <h1 class="display-4 fw-normal">Главная</h1>
+                <p class="lead text-muted">Вы находитесь на сайте, предназначенном для продажи товаров.</p>
+            </div>
+
+            <div class="row row-cols-1 row-cols-md-3 mb-3 text-center">
+                <!-- Карточка товара 1 -->
+                <div class="col">
+                    <div class="card mb-4 rounded-3 shadow-sm">
+                        <div class="card-header py-3">
+                            <h4 class="my-0 fw-normal">Товар 1</h4>
+                        </div>
+                        <div class="card-body">
+                            <h1 class="card-title pricing-card-title">$ 100</h1>
+                            <ul class="list-unstyled mt-3 mb-4 text-muted">
+                                <li>10 users included, 2 GB of storage,</li>
+                                <li>Email support, Help center access</li>
+                            </ul>
+                            <button type="button" class="w-100 btn btn-lg btn-outline-primary">Купить</button>
+                        </div>
+                    </div>
+                </div>
+                <!-- Карточка товара 2 -->
+                <div class="col">
+                    <div class="card mb-4 rounded-3 shadow-sm">
+                        <div class="card-header py-3 text-bg-light">
+                            <h4 class="my-0 fw-normal">Товар 1</h4>
+                        </div>
+                        <div class="card-body">
+                            <h1 class="card-title pricing-card-title">$ 100</h1>
+                            <ul class="list-unstyled mt-3 mb-4 text-muted">
+                                <li>10 users included, 2 GB of storage,</li>
+                                <li>Email support, Help center access</li>
+                            </ul>
+                            <button type="button" class="w-100 btn btn-lg btn-outline-primary">Купить</button>
+                        </div>
+                    </div>
+                </div>
+                <!-- Карточка товара 3 -->
+                <div class="col">
+                    <div class="card mb-4 rounded-3 shadow-sm">
+                        <div class="card-header py-3 text-bg-light">
+                            <h4 class="my-0 fw-normal">Товар 1</h4>
+                        </div>
+                        <div class="card-body">
+                            <h1 class="card-title pricing-card-title">$ 100</h1>
+                            <ul class="list-unstyled mt-3 mb-4 text-muted">
+                                <li>10 users included, 2 GB of storage,</li>
+                                <li>Email support, Help center access</li>
+                            </ul>
+                            <button type="button" class="w-100 btn btn-lg btn-outline-primary">Купить</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- JS для работы выпадающего меню -->
+    <script src="https://cdn.jsdelivr.net"></script>
+</body>
+</html>
