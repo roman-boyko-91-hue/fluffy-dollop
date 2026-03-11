@@ -4,119 +4,216 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Прототип магазина</title>
-    <!-- Подключение Bootstrap 5 CSS -->
-    <link href="css/bootstrap.min.css" rel="stylesheet" />
-    <!-- Подключение иконок Bootstrap Icons -->
-    <link rel="stylesheet" href="https://css/bootstrap.min.css">
-    <link href="style.css" rel="stylesheet" />
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet"
+          integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
+    <link href="style.css" rel="stylesheet"/>
 </head>
 <body>
-
-    <!-- Боковое меню -->
-    <div class="sidebar d-flex flex-column p-3">
+<main class="d-flex flex-row">
+    <div class="d-flex flex-column flex-shrink-0 p-3 text-white bg-dark" style="width: 280px;">
         <a href="/" class="d-flex align-items-center mb-3 mb-md-0 me-md-auto text-white text-decoration-none">
-            <i class="bi bi-bootstrap-fill me-2 fs-4"></i>
-            <span class="fs-4">Меню</span>
+            <svg class="bi me-2" width="40" height="32">
+                <use xlink:href="#bootstrap"></use>
+            </svg>
+            <span class="fs-4"><font dir="auto" style="vertical-align: inherit;"><font dir="auto"
+                                                                                       style="vertical-align: inherit;">Боковая панель</font></font></span>
         </a>
         <hr>
         <ul class="nav nav-pills flex-column mb-auto">
             <li class="nav-item">
                 <a href="#" class="nav-link active" aria-current="page">
-                    <i class="bi bi-house-door me-2"></i> Главная
-                </a>
+                    <svg class="bi me-2" width="16" height="16">
+                        <use xlink:href="#home"></use>
+                    </svg>
+                    <font dir="auto" style="vertical-align: inherit;"><font dir="auto" style="vertical-align: inherit;">
+                        Главная
+                    </font></font></a>
             </li>
             <li>
-                <a href="#" class="nav-link">
-                    <i class="bi bi-grid me-2"></i> Категории
-                </a>
+                <a href="categories.html" class="nav-link text-white">
+                    <svg class="bi me-2" width="16" height="16">
+                        <use xlink:href="#speedometer2"></use>
+                    </svg>
+                    <font dir="auto" style="vertical-align: inherit;"><font dir="auto" style="vertical-align: inherit;">
+                        Категории
+                    </font></font></a>
             </li>
             <li>
-                <a href="#" class="nav-link">
-                    <i class="bi bi-cart me-2"></i> Заказы
-                </a>
+                <a href="#" class="nav-link text-white">
+                    <svg class="bi me-2" width="16" height="16">
+                        <use xlink:href="#table"></use>
+                    </svg>
+                    <font dir="auto" style="vertical-align: inherit;"><font dir="auto" style="vertical-align: inherit;">
+                        Заказы
+                    </font></font></a>
             </li>
             <li>
-                <a href="#" class="nav-link">
-                    <i class="bi bi-person me-2"></i> Контакты
-                </a>
+                <a href="#" class="nav-link text-white">
+                    <svg class="bi me-2" width="16" height="16">
+                        <use xlink:href="#people-circle"></use>
+                    </svg>
+                    <font dir="auto" style="vertical-align: inherit;"><font dir="auto" style="vertical-align: inherit;">
+                        Контакты
+                    </font></font></a>
             </li>
         </ul>
         <hr>
+
         <div class="dropdown">
-            <a href="#" class="d-flex align-items-center text-white text-decoration-none dropdown-toggle" id="dropdownUser1" data-bs-toggle="dropdown" aria-expanded="false">
-                <img src="https://github.com" alt="" width="32" height="32" class="rounded-circle me-2">
-                <strong>Пользователь</strong>
+            <a href="#" class="d-flex align-items-center text-white text-decoration-none dropdown-toggle"
+               id="dropdownUser1"
+               data-bs-toggle="dropdown" aria-expanded="false">
+                <img src="https://github.com/mdo.png" alt="" width="32" height="32" class="rounded-circle me-2">
+                <strong><font dir="auto" style="vertical-align: inherit;"><font dir="auto"
+                                                                                style="vertical-align: inherit;">мдо</font></font></strong>
             </a>
             <ul class="dropdown-menu dropdown-menu-dark text-small shadow" aria-labelledby="dropdownUser1">
-                <li><a class="dropdown-item" href="#">Профиль</a></li>
-                <li><hr class="dropdown-divider"></li>
-                <li><a class="dropdown-item" href="#">Выход</a></li>
+                <li><a class="dropdown-item" href="#"><font dir="auto" style="vertical-align: inherit;"><font dir="auto"
+                                                                                                              style="vertical-align: inherit;">Новый
+                    проект...</font></font></a></li>
+                <li><a class="dropdown-item" href="#"><font dir="auto" style="vertical-align: inherit;"><font dir="auto"
+                                                                                                              style="vertical-align: inherit;">Настройки</font></font></a>
+                </li>
+                <li><a class="dropdown-item" href="#"><font dir="auto" style="vertical-align: inherit;"><font dir="auto"
+                                                                                                              style="vertical-align: inherit;">Профиль</font></font></a>
+                </li>
+                <li>
+                    <hr class="dropdown-divider">
+                </li>
+                <li><a class="dropdown-item" href="#"><font dir="auto" style="vertical-align: inherit;"><font dir="auto"
+                                                                                                              style="vertical-align: inherit;">выход</font></font></a>
+                </li>
             </ul>
         </div>
     </div>
+    <div class="b-example-divider"></div>
+    <div>
+        <div class="pricing-header p-3 pb-md-4 mx-auto text-center">
+            <h1 class="display-4 fw-normal"><font dir="auto" style="vertical-align: inherit;"><font dir="auto"
+                                                                                                    style="vertical-align: inherit;">Цены</font></font>
+            </h1>
+            <p class="fs-5 text-muted"><font dir="auto" style="vertical-align: inherit;"><font dir="auto"
+                                                                                               style="vertical-align: inherit;">С
+                помощью этого примера Bootstrap вы быстро создадите эффективную таблицу цен для потенциальных клиентов.
+                Она построена с использованием стандартных компонентов и утилит Bootstrap и требует минимальной
+                доработки.</font></font></p>
 
-    <!-- Основной контент -->
-    <main class="main-content p-5">
-        <div class="container">
-            <div class="text-center mb-5">
-                <h1 class="display-4 fw-normal">Главная</h1>
-                <p class="lead text-muted">Вы находитесь на сайте, предназначенном для продажи товаров.</p>
-            </div>
-
+        </div>
+        <div>
             <div class="row row-cols-1 row-cols-md-3 mb-3 text-center">
-                <!-- Карточка товара 1 -->
                 <div class="col">
                     <div class="card mb-4 rounded-3 shadow-sm">
                         <div class="card-header py-3">
-                            <h4 class="my-0 fw-normal">Товар 1</h4>
+                            <h4 class="my-0 fw-normal"><font dir="auto" style="vertical-align: inherit;"><font
+                                    dir="auto"
+                                    style="vertical-align: inherit;">Бесплатно</font></font>
+                            </h4>
                         </div>
                         <div class="card-body">
-                            <h1 class="card-title pricing-card-title">$ 100</h1>
-                            <ul class="list-unstyled mt-3 mb-4 text-muted">
-                                <li>10 users included, 2 GB of storage,</li>
-                                <li>Email support, Help center access</li>
+                            <h1 class="card-title pricing-card-title"><font dir="auto"
+                                                                            style="vertical-align: inherit;"><font
+                                    dir="auto" style="vertical-align: inherit;">0 долларов </font></font><small
+                                    class="text-muted fw-light"><font dir="auto" style="vertical-align: inherit;"><font
+                                    dir="auto" style="vertical-align: inherit;">в месяц</font></font></small></h1>
+                            <ul class="list-unstyled mt-3 mb-4">
+                                <li><font dir="auto" style="vertical-align: inherit;"><font dir="auto"
+                                                                                            style="vertical-align: inherit;">Включая
+                                    10 пользователей</font></font></li>
+                                <li><font dir="auto" style="vertical-align: inherit;"><font dir="auto"
+                                                                                            style="vertical-align: inherit;">2
+                                    ГБ памяти</font></font></li>
+                                <li><font dir="auto" style="vertical-align: inherit;"><font dir="auto"
+                                                                                            style="vertical-align: inherit;">Поддержка
+                                    по электронной почте</font></font></li>
+                                <li><font dir="auto" style="vertical-align: inherit;"><font dir="auto"
+                                                                                            style="vertical-align: inherit;">Доступ
+                                    к центру поддержки</font></font></li>
                             </ul>
-                            <button type="button" class="w-100 btn btn-lg btn-outline-primary">Купить</button>
+                            <button type="button" class="w-100 btn btn-lg btn-outline-primary"><font dir="auto"
+                                                                                                     style="vertical-align: inherit;"><font
+                                    dir="auto" style="vertical-align: inherit;">Зарегистрируйтесь
+                                бесплатно</font></font>
+                            </button>
                         </div>
                     </div>
                 </div>
-                <!-- Карточка товара 2 -->
                 <div class="col">
                     <div class="card mb-4 rounded-3 shadow-sm">
-                        <div class="card-header py-3 text-bg-light">
-                            <h4 class="my-0 fw-normal">Товар 1</h4>
+                        <div class="card-header py-3">
+                            <h4 class="my-0 fw-normal"><font dir="auto" style="vertical-align: inherit;"><font
+                                    dir="auto"
+                                    style="vertical-align: inherit;">Про</font></font>
+                            </h4>
                         </div>
                         <div class="card-body">
-                            <h1 class="card-title pricing-card-title">$ 100</h1>
-                            <ul class="list-unstyled mt-3 mb-4 text-muted">
-                                <li>10 users included, 2 GB of storage,</li>
-                                <li>Email support, Help center access</li>
+                            <h1 class="card-title pricing-card-title"><font dir="auto"
+                                                                            style="vertical-align: inherit;"><font
+                                    dir="auto" style="vertical-align: inherit;">15 долларов </font></font><small
+                                    class="text-muted fw-light"><font dir="auto" style="vertical-align: inherit;"><font
+                                    dir="auto" style="vertical-align: inherit;">в месяц</font></font></small></h1>
+                            <ul class="list-unstyled mt-3 mb-4">
+                                <li><font dir="auto" style="vertical-align: inherit;"><font dir="auto"
+                                                                                            style="vertical-align: inherit;">Включая
+                                    20 пользователей</font></font></li>
+                                <li><font dir="auto" style="vertical-align: inherit;"><font dir="auto"
+                                                                                            style="vertical-align: inherit;">10
+                                    ГБ памяти</font></font></li>
+                                <li><font dir="auto" style="vertical-align: inherit;"><font dir="auto"
+                                                                                            style="vertical-align: inherit;">Приоритетная
+                                    поддержка по электронной почте</font></font></li>
+                                <li><font dir="auto" style="vertical-align: inherit;"><font dir="auto"
+                                                                                            style="vertical-align: inherit;">Доступ
+                                    к центру поддержки</font></font></li>
                             </ul>
-                            <button type="button" class="w-100 btn btn-lg btn-outline-primary">Купить</button>
+                            <button type="button" class="w-100 btn btn-lg btn-primary"><font dir="auto"
+                                                                                             style="vertical-align: inherit;"><font
+                                    dir="auto" style="vertical-align: inherit;">Начать</font></font></button>
                         </div>
                     </div>
                 </div>
-                <!-- Карточка товара 3 -->
                 <div class="col">
-                    <div class="card mb-4 rounded-3 shadow-sm">
-                        <div class="card-header py-3 text-bg-light">
-                            <h4 class="my-0 fw-normal">Товар 1</h4>
+                    <div class="card mb-4 rounded-3 shadow-sm border-primary">
+                        <div class="card-header py-3 text-white bg-primary border-primary">
+                            <h4 class="my-0 fw-normal"><font dir="auto" style="vertical-align: inherit;"><font
+                                    dir="auto"
+                                    style="vertical-align: inherit;">Предприятие</font></font>
+                            </h4>
                         </div>
                         <div class="card-body">
-                            <h1 class="card-title pricing-card-title">$ 100</h1>
-                            <ul class="list-unstyled mt-3 mb-4 text-muted">
-                                <li>10 users included, 2 GB of storage,</li>
-                                <li>Email support, Help center access</li>
+                            <h1 class="card-title pricing-card-title"><font dir="auto"
+                                                                            style="vertical-align: inherit;"><font
+                                    dir="auto" style="vertical-align: inherit;">29 долларов </font></font><small
+                                    class="text-muted fw-light"><font dir="auto" style="vertical-align: inherit;"><font
+                                    dir="auto" style="vertical-align: inherit;">в месяц</font></font></small></h1>
+                            <ul class="list-unstyled mt-3 mb-4">
+                                <li><font dir="auto" style="vertical-align: inherit;"><font dir="auto"
+                                                                                            style="vertical-align: inherit;">Включая
+                                    30 пользователей</font></font></li>
+                                <li><font dir="auto" style="vertical-align: inherit;"><font dir="auto"
+                                                                                            style="vertical-align: inherit;">15
+                                    ГБ памяти</font></font></li>
+                                <li><font dir="auto" style="vertical-align: inherit;"><font dir="auto"
+                                                                                            style="vertical-align: inherit;">Поддержка
+                                    по телефону и электронной почте</font></font></li>
+                                <li><font dir="auto" style="vertical-align: inherit;"><font dir="auto"
+                                                                                            style="vertical-align: inherit;">Доступ
+                                    к центру поддержки</font></font></li>
                             </ul>
-                            <button type="button" class="w-100 btn btn-lg btn-outline-primary">Купить</button>
+                            <button type="button" class="w-100 btn btn-lg btn-primary"><font dir="auto"
+                                                                                             style="vertical-align: inherit;"><font
+                                    dir="auto" style="vertical-align: inherit;">Связаться с нами</font></font></button>
                         </div>
                     </div>
                 </div>
             </div>
-        </div>
-    </main>
 
-    <!-- JS для работы выпадающего меню -->
-    <script src="https://cdn.jsdelivr.net"></script>
+
+        </div>
+    </div>
+</main>
+
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI"
+        crossorigin="anonymous"></script>
 </body>
-</html>
