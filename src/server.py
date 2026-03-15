@@ -20,7 +20,13 @@ class MyServer(BaseHTTPRequestHandler):
             full_path = TEMPLATES_DIR / file_path
             if full_path.exists():
                 self.send_response(200)
-                self.send_header("Content-Type", "text/html")
+
+                # Устанавливаем правильный Content-Type
+                if file_path.endswith('.css'):
+                    self.send_header("Content-Type", "text/css")
+                else:
+                    self.send_header("Content-Type", "text/html")
+
                 self.end_headers()
                 with open(full_path, 'r', encoding='utf-8') as file:
                     self.wfile.write(file.read().encode('utf-8'))
