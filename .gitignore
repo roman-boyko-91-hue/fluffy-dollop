@@ -4,3 +4,4 @@ __pycache__
 *.рус
 .env
 logs
+sqlite
