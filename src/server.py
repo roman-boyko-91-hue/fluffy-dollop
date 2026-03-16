@@ -1,5 +1,5 @@
-from pathlib import Path
 from http.server import BaseHTTPRequestHandler, HTTPServer
+from pathlib import Path
 
 BASE_DIR = Path(__file__).resolve().parent.parent
 
@@ -8,32 +8,46 @@ STATUC_DIR = BASE_DIR / "static"
 
 
 class MyServer(BaseHTTPRequestHandler):
-    def do_GET(self):
+    def do_GET(self, STATIC_DIR):
         templates_map = {
             '/': 'index.html',
             '/orders/': 'orders.html',
             '/categories/': 'categories.html'
         }
 
-        file_path = templates_map.get(self.path)
-        if file_path:
-            full_path = TEMPLATES_DIR / file_path
-            if full_path.exists():
-                self.send_response(200)
+        template_name = templates_map.get(self.path)
+        if template_name:
+            template_path = TEMPLATES_DIR / template_name
+            if not template_path.exists():
+                self.send_error(404, "Template not found")
+                return
 
-                # Устанавливаем правильный Content-Type
-                if file_path.endswith('.css'):
-                    self.send_header("Content-Type", "text/css")
-                else:
-                    self.send_header("Content-Type", "text/html")
+            data = template_path.read_bytes()
 
-                self.end_headers()
-                with open(full_path, 'r', encoding='utf-8') as file:
-                    self.wfile.write(file.read().encode('utf-8'))
-            else:
-                self.send_error(404, "File Not Found")
+            self.send_response(200)
+            self.send_header("Content-Type", "text/html")
+            self.end_headers()
+            self.wfile.write(data)
+        elif self.path.startswith("/static/"):
+            # Тут делаем распаковку в список, чтобы избавиться от начального префикса /static/
+            _, _, *static_path_list = self.path.split("/")
+            static_path = STATIC_DIR.joinpath(*static_path_list)
+            if not static_path.exists():
+                self.send_error(404, "Static file not")
+                return
+
+            data = static_path.read_bytes()
+
+            self.send_response(200)
+
+            # Если есть другие типы данных в /static/,
+            if static_path.name.endswith(".css"):
+                self.send_header("Content-Type", "text/css")
+
+            self.end_headers()
+            self.wfile.write(data)
         else:
-            self.send_error(404, "File Not Found")
+            self.send_error(404)
 
 
 def run(host: str, port: int) -> None:
