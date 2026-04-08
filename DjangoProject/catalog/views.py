@@ -12,7 +12,7 @@ def home(request):
 
 
 def contacts(request):
-    return render(request, 'contacts.html')
+    return render(request, 'catalog/contacts.html')
 
 
 def product_detail(request, pk):
