@@ -1,8 +1,7 @@
 from django.urls import reverse_lazy
 from django.views.generic import ListView, DetailView, TemplateView, CreateView, UpdateView, DeleteView
 from .models import Product
-from django import forms
-from django.core.exceptions import ValidationError
+from .forms import ProductForm
 
 
 class ProductListView(ListView):
@@ -16,7 +15,7 @@ class ProductListView(ListView):
 
 
 class ContactTemplateView(TemplateView):
-    template_name = 'main/contact.html'
+    template_name = 'catalog/contact.html'
 
 
 class ProductDetailView(DetailView):
@@ -24,56 +23,17 @@ class ProductDetailView(DetailView):
     template_name = 'catalog/product_detail.html'
 
 
-class ProductForm(forms.ModelForm):
-    """Список запрещенных слов"""
-    FORBIDDEN_WORDS = [
-        'казино', 'биржа', 'обман', 'криптовалюта',
-        'дешево', 'полиция', 'крипта', 'бесплатно', 'радар'
-    ]
-
-    class Meta:
-        model = Product
-        fields = ['name', 'description', 'image', 'price', 'category']
-
-    def clean_name(self):
-        cleaned_data = self.cleaned_data.get('name')
-        return self._validate_content(cleaned_data)
-
-    def clean_description(self):
-        cleaned_data = self.cleaned_data.get('description')
-        return self._validate_content(cleaned_data)
-
-    def _validate_content(self, content):
-        """Метод для проверки текста на запрещенные слова"""
-        if content:
-            lower_content = content.lower()
-            for word in self.FORBIDDEN_WORDS:
-                if word in lower_content:
-                    raise ValidationError(f'Текст содержит запрещенное слово: "{word}"')
-        return content
-
-    def __init__(self, *args, **kwargs):
-        super().__init__(*args, **kwargs)
-        for field_name, field in self.fields.items():
-            field.widget.attrs.update({'class': 'form-control'})
-
-    def clean_price(self):
-        price = self.cleaned_data.get('price')
-
-        if price < 0:
-            raise ValidationError('Цена не может быть отрицательной.')
-
-        return price
-
 class ProductCreateView(CreateView):
     model = Product
     form_class = ProductForm
-    success_url = reverse_lazy('catalog:home') # или твой путь к списку
+    success_url = reverse_lazy('catalog:home')
+
 
 class ProductUpdateView(UpdateView):
     model = Product
     form_class = ProductForm
     success_url = reverse_lazy('catalog:home')
+
 
 class ProductDeleteView(DeleteView):
     model = Product
