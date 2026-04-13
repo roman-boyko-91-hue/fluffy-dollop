@@ -1,4 +1,5 @@
-from django.views.generic import ListView, DetailView, TemplateView
+from django.urls import reverse_lazy
+from django.views.generic import ListView, DetailView, TemplateView, CreateView, UpdateView, DeleteView
 from .models import Product
 from django import forms
 from django.core.exceptions import ValidationError
@@ -32,7 +33,7 @@ class ProductForm(forms.ModelForm):
 
     class Meta:
         model = Product
-        fields = ['name', 'description', 'price', 'category']
+        fields = ['name', 'description', 'image', 'price', 'category']
 
     def clean_name(self):
         cleaned_data = self.cleaned_data.get('name')
@@ -63,3 +64,17 @@ class ProductForm(forms.ModelForm):
             raise ValidationError('Цена не может быть отрицательной.')
 
         return price
+
+class ProductCreateView(CreateView):
+    model = Product
+    form_class = ProductForm
+    success_url = reverse_lazy('catalog:home') # или твой путь к списку
+
+class ProductUpdateView(UpdateView):
+    model = Product
+    form_class = ProductForm
+    success_url = reverse_lazy('catalog:home')
+
+class ProductDeleteView(DeleteView):
+    model = Product
+    success_url = reverse_lazy('catalog:home')
