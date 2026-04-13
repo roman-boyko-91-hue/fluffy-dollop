@@ -15,7 +15,7 @@ class ProductListView(ListView):
 
 
 class ContactTemplateView(TemplateView):
-    template_name = 'catalog/contact.html'
+    template_name = 'catalog/contacts.html'
 
 
 class ProductDetailView(DetailView):
