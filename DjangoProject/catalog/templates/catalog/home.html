@@ -1,48 +1,44 @@
 {% extends 'catalog/base.html' %}
 {% load humanize %}
-
-{% block title %}Главная — Skystore{% endblock %}
-
 {% block content %}
 <div class="pricing-header px-3 py-3 pt-md-5 pb-md-4 mx-auto text-center">
     <h1 class="display-4">Skystore</h1>
     <p class="lead">Ваш лучший выбор плагинов и кода.</p>
 </div>
+
 <div class="container mb-3 text-end">
-    <a href="{% url 'catalog:product_create' %}" class="btn btn-primary">Добавить товар</a>
+    {% if user.is_authenticated %}
+        <a href="{% url 'catalog:product_create' %}" class="btn btn-primary">Добавить товар</a>
+    {% endif %}
 </div>
 
 <div class="container">
-    <div class="row text-center">
+    <div class="row">
         {% for product in object_list %}
-        <div class="col-md-4">
-            <div class="card mb-4 box-shadow h-100">
+        <div class="col-md-4 mb-4">
+            <div class="card h-100 box-shadow">
                 <div class="card-header">
-                    <h4 class="my-0 font-weight-normal">{{ product.name }}</h4>
+                    <h4 class="my-0 font-weight-normal text-center">{{ product.name }}</h4>
                 </div>
                 <div class="card-body d-flex flex-column">
                     {% if product.image %}
-                    <img src="{{ product.image.url }}" class="img-fluid mb-3" style="max-height: 200px;"
-                         alt="{{ product.name }}">
+                        <img src="{{ product.image.url }}" class="img-fluid mb-3 rounded" style="height: 200px; object-fit: cover;" alt="{{ product.name }}">
                     {% endif %}
-                    <h1 class="card-title pricing-card-title">{{ product.price|intcomma }} <small
-                            class="text-muted">₽</small>
-                    </h1>
-                    <p class="mt-3 mb-4 text-left text-muted flex-grow-1">
-                        {{ product.description|default:"Описание скоро появится"|truncatechars:100 }}
-                    </p>
-                    <div class="btn-group">
-                        <a href="{% url 'catalog:product_detail' product.pk %}"
-                           class="btn btn-lg btn-block btn-outline-primary">Посмотреть</a>
-                        <div class="btn-group mt-2">
-                            <a href="{% url 'catalog:product_detail' product.pk %}"
-                               class="btn btn-sm btn-outline-primary">Посмотреть</a>
-                            <a href="{% url 'catalog:product_update' product.pk %}"
-                               class="btn btn-sm btn-outline-secondary">Изменить</a>
-                            <a href="{% url 'catalog:product_delete' product.pk %}"
-                               class="btn btn-sm btn-outline-danger">Удалить</a>
-                        </div>
 
+                    <h1 class="card-title pricing-card-title text-center">
+                        {{ product.price|intcomma }} <small class="text-muted">руб.</small>
+                    </h1>
+
+                    <p class="card-text flex-grow-1">{{ product.description|truncatechars:100 }}</p>
+
+                    <div class="btn-group mt-auto">
+                        <a href="{% url 'catalog:product_detail' product.pk %}" class="btn btn-sm btn-outline-primary">Посмотреть</a>
+
+                        {# Кнопки только для авторизованных по Заданию 3 #}
+                        {% if user.is_authenticated %}
+                            <a href="{% url 'catalog:product_update' product.pk %}" class="btn btn-sm btn-outline-secondary">Изменить</a>
+                            <a href="{% url 'catalog:product_confirm_delete' product.pk %}" class="btn btn-sm btn-outline-danger">Удалить</a>
+                        {% endif %}
                     </div>
                 </div>
             </div>
