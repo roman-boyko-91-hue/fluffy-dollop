@@ -39,7 +39,7 @@ class Product(models.Model):
         ordering = ['-created_at']
         permissions = [
             ('can_unpublish_product', 'Can unpublish product'),
-            ('can_change_category', 'Can change category'),  # дополнительно, если нужно по заданию
+            ('can_change_category', 'Can change category'),
             ('can_change_description', 'Can change description'),
         ]
 
