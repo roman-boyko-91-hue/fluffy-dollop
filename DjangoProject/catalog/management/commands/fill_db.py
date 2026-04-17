@@ -1,5 +1,6 @@
 from django.core.management import BaseCommand
 from catalog.models import Category, Product
+from users.models import User
 
 
 class Command(BaseCommand):
@@ -7,6 +8,7 @@ class Command(BaseCommand):
 
     def handle(self, *args, **options):
         # 1. Удаление данных (сначала продукты, потом категории из-за связей)
+        user = User.objects.first()
         Product.objects.all().delete()
         Category.objects.all().delete()
 
@@ -25,9 +27,7 @@ class Command(BaseCommand):
         # 4. Создание объектов продуктов
         products_for_create = []
         for product_item in product_list:
-            products_for_create.append(
-                Product(**product_item)
-            )
+            Product.objects.create(**product_item, owner=user)
 
         # Массовое создание для оптимизации
         Product.objects.bulk_create(products_for_create)

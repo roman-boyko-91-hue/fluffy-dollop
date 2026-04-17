@@ -1,9 +1,11 @@
 from django.urls import reverse_lazy
-from django.views.generic import CreateView
+from django.views.generic import CreateView, UpdateView
 from django.core.mail import send_mail
 from django.conf import settings
 from .forms import UserRegisterForm
 from django.contrib.auth.views import LoginView
+
+from .models import User
 
 
 class RegisterView(CreateView):
@@ -24,3 +26,13 @@ class RegisterView(CreateView):
 
 class UserLoginView(LoginView):
     template_name = 'users/login.html'
+
+
+class ProfileView(UpdateView):
+    model = User
+    fields = ('email', 'avatar', 'phone', 'country')  # укажите поля из вашей модели
+    template_name = 'users/profile.html'
+    success_url = reverse_lazy('users:profile')
+
+    def get_object(self, queryset=None):
+        return self.request.user
