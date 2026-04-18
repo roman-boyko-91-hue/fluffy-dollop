@@ -1,9 +1,12 @@
 from django.core.exceptions import PermissionDenied
 from django.urls import reverse_lazy
 from django.views.generic import ListView, DetailView, TemplateView, CreateView, UpdateView, DeleteView
+
+from config import settings
 from .models import Product
 from .forms import ProductForm
 from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMixin
+from django.core.cache import cache
 
 
 class ProductListView(ListView):
@@ -14,6 +17,16 @@ class ProductListView(ListView):
         context = super().get_context_data(**kwargs)
         context['title'] = 'Наш каталог'
         return context
+
+    def get_queryset(self):
+        if settings.CACHE_ENABLED:
+            key = 'all_products_list'
+            queryset = cache.get(key)
+            if queryset is None:
+                queryset = super().get_queryset()
+                cache.set(key, queryset)
+            return queryset
+        return super().get_queryset()
 
 
 class ContactTemplateView(TemplateView):
