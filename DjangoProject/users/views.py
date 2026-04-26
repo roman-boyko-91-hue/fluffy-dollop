@@ -20,13 +20,12 @@ class RegisterView(CreateView):
     def form_valid(self, form):
         user = form.save()
         user.is_active = False
-        token = secrets.token_hex(16)
-        user.token = token
+        user.verification_token = secrets.token_hex(16)
         user.save()
 
         # Ссылка для письма
         host = self.request.get_host()
-        url = f"http://{host}{reverse('users:confirm_email', args=[token])}"
+        url = f"http://{host}{reverse('users:confirm_email', args=[user.verification_token])}"
 
         send_mail(
             subject='Подтверждение почты',
@@ -52,9 +51,9 @@ class ProfileView(UpdateView):
 
 
 def confirm_email(request, token):
-    user = get_object_or_404(User, token=token)
-    user.is_active = True  # Активируем
-    user.token = None  # Удаляем использованный токен
+    user = get_object_or_404(User, verification_token=token)
+    user.is_active = True
+    user.verification_token = None
     user.save()
     return redirect('users:login')
 

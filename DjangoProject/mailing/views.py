@@ -46,8 +46,14 @@ class HomeView(TemplateView):
 
 
 # Клиенты (CRUD)
-class ClientListView(ListView):
+class ClientListView(LoginRequiredMixin, ListView):
     model = Client
+
+    # Если пользователь не вошел, LoginRequiredMixin сам перенаправит его на логин
+    def get_queryset(self):
+        if self.request.user.is_staff or self.request.user.is_superuser:
+            return Client.objects.all()
+        return Client.objects.filter(owner=self.request.user)
 
 
 class ClientCreateView(CreateView):
@@ -72,29 +78,36 @@ class ClientDeleteView(DeleteView):
 
 
 # Сообщения (CRUD)
-class MessageListView(ListView):
+class MessageListView(LoginRequiredMixin, ListView):
     model = Message
 
     def get_queryset(self):
-        user = self.request.user
-        # Менеджеры видят всё, обычные пользователи — только своё
-        if user.groups.filter(name='Managers').exists() or user.is_superuser:
-            return Mailing.objects.all()
-        return Mailing.objects.filter(owner=user)
+        if self.request.user.is_staff or self.request.user.is_superuser:
+            return Message.objects.all()
+        return Message.objects.filter(owner=self.request.user)
 
 
-class MessageCreateView(CreateView):
+class MessageCreateView(LoginRequiredMixin, CreateView):
     model = Message
     fields = ('subject', 'body')
     success_url = reverse_lazy('mailing:message_list')
 
+    def form_valid(self, form):
+        form.instance.owner = self.request.user
+        return super().form_valid(form)
+
 
 # Рассылки (CRUD)
-class MailingListView(ListView):
+class MailingListView(LoginRequiredMixin, ListView):
     model = Mailing
 
+    def get_queryset(self):
+        if self.request.user.is_staff or self.request.user.is_superuser:
+            return Mailing.objects.all()
+        return Mailing.objects.filter(owner=self.request.user)
 
-class MailingCreateView(CreateView):
+
+class MailingCreateView(LoginRequiredMixin, CreateView):
     model = Mailing
     fields = ('start_time', 'end_time', 'message', 'clients')
     success_url = reverse_lazy('mailing:mailing_list')
@@ -104,7 +117,7 @@ class MailingCreateView(CreateView):
         return super().form_valid(form)
 
 
-class MailingUpdateView(UserPassesTestMixin, UpdateView):
+class MailingUpdateView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
     model = Mailing
 
     def test_func(self):
@@ -126,6 +139,11 @@ class MailingDeleteView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
 # Ручной запуск
 def force_send_mailing(request, pk):
     mailing = get_object_or_404(Mailing, pk=pk)
+    # Проверка прав (Владелец, Менеджер или Админ)
+    if mailing.owner != request.user and not request.user.is_staff and not request.user.is_superuser:
+        messages.error(request, "У вас нет прав для запуска этой рассылки")
+        return redirect('mailing:home')
+
     result = send_mailing(mailing)
 
     if "error" in result:
@@ -136,12 +154,15 @@ def force_send_mailing(request, pk):
     return redirect(request.META.get('HTTP_REFERER', 'mailing:home'))
 
 
-class AttemptListView(ListView):
+class AttemptListView(LoginRequiredMixin, ListView):
     model = MailingAttempt
     template_name = 'mailing/attempt_list.html'
 
     def get_queryset(self):
-        # Попытки только для рассылок текущего пользователя
+        # Если зашел менеджер или админ — отдаем вообще все попытки из базы
+        if self.request.user.is_staff or self.request.user.is_superuser:
+            return MailingAttempt.objects.all()
+        # Если обычный юзер — фильтруем только его рассылки
         return MailingAttempt.objects.filter(mailing__owner=self.request.user)
 
 
