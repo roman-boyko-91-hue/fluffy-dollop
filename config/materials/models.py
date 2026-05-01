@@ -6,6 +6,9 @@ class Course(models.Model):
     preview = models.ImageField(upload_to='materials/course_previews/', verbose_name='Превью', blank=True, null=True)
     description = models.TextField(verbose_name='Описание', blank=True, null=True)
 
+    def __str__(self):
+        return self.title
+
     class Meta:
         verbose_name = 'Курс'
         verbose_name_plural = 'Курсы'
@@ -16,6 +19,9 @@ class Lesson(models.Model):
     description = models.TextField(verbose_name='Описание', blank=True, null=True)
     preview = models.ImageField(upload_to='materials/lesson_previews/', verbose_name='Превью', blank=True, null=True)
     video_link = models.URLField(verbose_name='Ссылка на видео', blank=True, null=True)
+
+    def __str__(self):
+        return self.title
 
     # Для связи с курсом
     course = models.ForeignKey(Course, on_delete=models.CASCADE, related_name='lessons', verbose_name='Курс')
