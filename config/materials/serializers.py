@@ -14,12 +14,6 @@ class CourseSerializer(serializers.ModelSerializer):
         fields = '__all__'
 
 
-class LessonSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = Lesson
-        fields = '__all__'
-
-
 class CourseSerializer(serializers.ModelSerializer):
     # Поле для количества уроков
     lessons_count = serializers.SerializerMethodField()
