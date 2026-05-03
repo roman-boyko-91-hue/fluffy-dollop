@@ -1,17 +1,21 @@
 from rest_framework import serializers
 from .models import Course, Lesson
+from .validators import YoutubeOnlyValidator
 
 
 class LessonSerializer(serializers.ModelSerializer):
     class Meta:
         model = Lesson
         fields = '__all__'
+        # Подключаем валидатор к полю video_link
+        validators = [YoutubeOnlyValidator(field='video_link')]
 
 
 class CourseSerializer(serializers.ModelSerializer):
     class Meta:
         model = Course
         fields = '__all__'
+        validators = [YoutubeOnlyValidator(field='video_link')]
 
 
 class CourseSerializer(serializers.ModelSerializer):
