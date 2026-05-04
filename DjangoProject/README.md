@@ -4,7 +4,7 @@
 
 Проект "Веб-приложения" - это продолжение работы над 
 веб-приложение на Python в рамках 
-домашнего задания №27.
+домашнего задания №29.
 
 ## Установка:
 
@@ -20,10 +20,10 @@ git clone https://github.com/roman-boyko-91-hue/fluffy-dollop
 pip install -r requirements.txt
 ```
 
-3. Установите библиотеку Pillow:
+3. Установите библиотеку Redis:
 
 ```
-pip install Pillow
+pip install Redis
 ```
 
 4. Запустите локальный сервер:
