@@ -1,6 +1,8 @@
 from django.contrib.auth.models import AbstractUser
 from django.db import models
 
+from mailing.models import NULLABLE
+
 
 class User(AbstractUser):
     username = models.CharField(max_length=150, unique=True, blank=True, null=True)
@@ -11,6 +13,8 @@ class User(AbstractUser):
     avatar = models.ImageField(upload_to='users/avatars/', blank=True, null=True, verbose_name='Аватар')
     phone = models.CharField(max_length=35, blank=True, null=True, verbose_name='Номер телефона')
     country = models.CharField(max_length=50, blank=True, null=True, verbose_name='Страна')
+    email_verified = models.BooleanField(default=False)
+    verification_token = models.CharField(max_length=100, **NULLABLE)
 
     # Настройка авторизации через email
     USERNAME_FIELD = 'email'
