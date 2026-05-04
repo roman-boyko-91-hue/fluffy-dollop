@@ -8,6 +8,9 @@
     <h1 class="display-4">Skystore</h1>
     <p class="lead">Ваш лучший выбор плагинов и кода.</p>
 </div>
+<div class="container mb-3 text-end">
+    <a href="{% url 'catalog:product_create' %}" class="btn btn-primary">Добавить товар</a>
+</div>
 
 <div class="container">
     <div class="row text-center">
@@ -22,7 +25,8 @@
                     <img src="{{ product.image.url }}" class="img-fluid mb-3" style="max-height: 200px;"
                          alt="{{ product.name }}">
                     {% endif %}
-                    <h1 class="card-title pricing-card-title">{{ product.price|intcomma }} <small class="text-muted">₽</small>
+                    <h1 class="card-title pricing-card-title">{{ product.price|intcomma }} <small
+                            class="text-muted">₽</small>
                     </h1>
                     <p class="mt-3 mb-4 text-left text-muted flex-grow-1">
                         {{ product.description|default:"Описание скоро появится"|truncatechars:100 }}
@@ -30,6 +34,15 @@
                     <div class="btn-group">
                         <a href="{% url 'catalog:product_detail' product.pk %}"
                            class="btn btn-lg btn-block btn-outline-primary">Посмотреть</a>
+                        <div class="btn-group mt-2">
+                            <a href="{% url 'catalog:product_detail' product.pk %}"
+                               class="btn btn-sm btn-outline-primary">Посмотреть</a>
+                            <a href="{% url 'catalog:product_update' product.pk %}"
+                               class="btn btn-sm btn-outline-secondary">Изменить</a>
+                            <a href="{% url 'catalog:product_delete' product.pk %}"
+                               class="btn btn-sm btn-outline-danger">Удалить</a>
+                        </div>
+
                     </div>
                 </div>
             </div>
