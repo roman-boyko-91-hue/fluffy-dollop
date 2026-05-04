@@ -1,0 +1,24 @@
+<!doctype html>
+<html lang="ru">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>{% block title %} Skystore {% endblock %}</title>
+    <!-- Подключаем Bootstrap -->
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body>
+
+{% include 'catalog/includes/inc_menu.html' %}
+
+<main>
+    {% block content %}
+    {% endblock %}
+</main>
+
+<footer class="container pt-4 my-md-5 pt-md-5 border-top text-center">
+    <p>&copy; Skystore 2026</p>
+</footer>
+
+</body>
+</html>

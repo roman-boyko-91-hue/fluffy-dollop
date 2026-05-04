@@ -1,0 +1,50 @@
+{% extends 'catalog/base.html' %}
+
+{% block title %}{{ product.name }} — Skystore{% endblock %}
+
+{% block content %}
+<div class="container py-5">
+    <div class="card shadow-sm">
+        <div class="row no-gutters">
+            <!-- Блок с изображением -->
+            <div class="col-md-6 text-center p-4 bg-light d-flex align-items-center justify-content-center">
+                {% if product.image %}
+                    <img src="{{ product.image.url }}" class="img-fluid rounded shadow-sm" style="max-height: 400px;" alt="{{ product.name }}">
+                {% else %}
+                    <div class="text-muted">Нет изображения</div>
+                {% endif %}
+            </div>
+
+            <!-- Блок с информацией -->
+            <div class="col-md-6 border-left">
+                <div class="card-body p-5">
+                    <nav aria-label="breadcrumb">
+                        <ol class="breadcrumb bg-transparent p-0">
+                            <li class="breadcrumb-item"><a href="{% url 'catalog:home' %}">Каталог</a></li>
+                            <li class="breadcrumb-item active">{{ product.category }}</li>
+                        </ol>
+                    </nav>
+
+                    <h1 class="display-5 fw-bold mb-3">{{ product.name }}</h1>
+                    <h2 class="text-primary mb-4">{{ product.price }} ₽</h2>
+
+                    <hr>
+
+                    <h5 class="mt-4">Описание:</h5>
+                    <p class="lead text-secondary">{{ product.description }}</p>
+
+                    <div class="mt-5 d-flex gap-3">
+                        <button class="btn btn-success btn-lg px-5">Купить сейчас</button>
+                        <a href="{% url 'catalog:home' %}" class="btn btn-outline-secondary btn-lg">Назад в магазин</a>
+                    </div>
+
+                    <div class="mt-4 pt-4 border-top">
+                        <small class="text-muted">ID товара: {{ product.pk }}</small><br>
+                        <small class="text-muted">Дата публикации: {{ product.created_at|date:"d.m.Y" }}</small>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

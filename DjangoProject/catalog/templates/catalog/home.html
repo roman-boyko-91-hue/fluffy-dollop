@@ -1,0 +1,40 @@
+{% extends 'catalog/base.html' %}
+{% load humanize %}
+
+{% block title %}Главная — Skystore{% endblock %}
+
+{% block content %}
+<div class="pricing-header px-3 py-3 pt-md-5 pb-md-4 mx-auto text-center">
+    <h1 class="display-4">Skystore</h1>
+    <p class="lead">Ваш лучший выбор плагинов и кода.</p>
+</div>
+
+<div class="container">
+    <div class="row text-center">
+        {% for product in object_list %}
+        <div class="col-md-4">
+            <div class="card mb-4 box-shadow h-100">
+                <div class="card-header">
+                    <h4 class="my-0 font-weight-normal">{{ product.name }}</h4>
+                </div>
+                <div class="card-body d-flex flex-column">
+                    {% if product.image %}
+                    <img src="{{ product.image.url }}" class="img-fluid mb-3" style="max-height: 200px;"
+                         alt="{{ product.name }}">
+                    {% endif %}
+                    <h1 class="card-title pricing-card-title">{{ product.price|intcomma }} <small class="text-muted">₽</small>
+                    </h1>
+                    <p class="mt-3 mb-4 text-left text-muted flex-grow-1">
+                        {{ product.description|default:"Описание скоро появится"|truncatechars:100 }}
+                    </p>
+                    <div class="btn-group">
+                        <a href="{% url 'catalog:product_detail' product.pk %}"
+                           class="btn btn-lg btn-block btn-outline-primary">Посмотреть</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+</div>
+{% endblock %}

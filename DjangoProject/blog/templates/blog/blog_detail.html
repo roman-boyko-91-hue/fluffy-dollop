@@ -1,0 +1,22 @@
+{% extends 'catalog/base.html' %} {# Наследуемся от вашего главного шаблона #}
+
+{% block content %}
+<div class="container mt-5">
+    <div class="card mb-4">
+        {% if object.image %}
+            <img src="{{ object.image.url }}" class="card-img-top" alt="{{ object.title }}">
+        {% endif %}
+        <div class="card-body">
+            <h1 class="card-title">{{ object.title }}</h1>
+            <p class="text-muted">Опубликовано: {{ object.created_at|date:"d.m.Y" }}</p>
+            <hr>
+            <p class="card-text">{{ object.content }}</p>
+        </div>
+        <div class="card-footer text-muted">
+            <!-- Вот здесь будет отображаться обновленный счетчик -->
+            Просмотров: <strong>{{ object.views_count }}</strong>
+            <a href="{% url 'blog:list' %}" class="btn btn-secondary btn-sm float-end">Назад к списку</a>
+        </div>
+    </div>
+</div>
+{% endblock %}
