@@ -8,7 +8,7 @@
 
 <div class="container mb-3 text-end">
     {% if user.is_authenticated %}
-        <a href="{% url 'catalog:product_create' %}" class="btn btn-primary">Добавить товар</a>
+    <a href="{% url 'catalog:product_create' %}" class="btn btn-primary">Добавить товар</a>
     {% endif %}
 </div>
 
@@ -22,7 +22,12 @@
                 </div>
                 <div class="card-body d-flex flex-column">
                     {% if product.image %}
-                        <img src="{{ product.image.url }}" class="img-fluid mb-3 rounded" style="height: 200px; object-fit: cover;" alt="{{ product.name }}">
+                    <img src="{{ product.image.url }}" class="img-fluid mb-3 rounded"
+                         style="height: 200px; object-fit: cover;">
+                    {% else %}
+                    <!-- Заглушка, если картинки нет -->
+                    <img src="/media/no_image.png" class="img-fluid mb-3 rounded"
+                         style="height: 200px; object-fit: cover;">
                     {% endif %}
 
                     <h1 class="card-title pricing-card-title text-center">
@@ -34,12 +39,21 @@
                     <div class="btn-group mt-auto">
                         <a href="{% url 'catalog:product_detail' product.pk %}" class="btn btn-sm btn-outline-primary">Посмотреть</a>
 
-                        {# Кнопки только для авторизованных по Заданию 3 #}
                         {% if user.is_authenticated %}
-                            <a href="{% url 'catalog:product_update' product.pk %}" class="btn btn-sm btn-outline-secondary">Изменить</a>
-                            <a href="{% url 'catalog:product_confirm_delete' product.pk %}" class="btn btn-sm btn-outline-danger">Удалить</a>
+                        {# Изменить может владелец ИЛИ модератор (у которого есть спец. право) #}
+                        {% if user == product.owner or perms.catalog.can_unpublish_product %}
+                        <a href="{% url 'catalog:product_update' product.pk %}"
+                           class="btn btn-sm btn-outline-secondary">Изменить</a>
                         {% endif %}
+
+                        {# Удалить может владелец ИЛИ модератор с общим правом на удаление #}
+                        {% if user == product.owner or perms.catalog.delete_product %}
+                        <a href="{% url 'catalog:product_delete' product.pk %}"
+                           class="btn btn-sm btn-outline-danger">Удалить</a>
+                        {% endif %}
+                        {% endif %} {# Закрываем проверку авторизации #}
                     </div>
+
                 </div>
             </div>
         </div>
