@@ -1,7 +1,7 @@
 from django.urls import path
 from rest_framework.routers import DefaultRouter
 from materials.apps import MaterialsConfig
-from materials.views import CourseViewSet, LessonViewSet
+from materials.views import CourseViewSet, LessonViewSet, SubscriptionAPIView
 
 app_name = MaterialsConfig.name
 
@@ -10,5 +10,6 @@ router.register(r'courses', CourseViewSet, basename='courses')
 router.register(r'lessons', LessonViewSet, basename='lessons')
 
 urlpatterns = [
-    # Все CRUD пути для курсов и уроков генерируются автоматически!
-] + router.urls
+                  # Эндпоинт для подписки
+                  path('course/subscribe/', SubscriptionAPIView.as_view(), name='subscribe'),
+              ] + router.urls  # Добавляем маршруты от роутера
