@@ -1,3 +1,5 @@
+from drf_yasg.utils import swagger_auto_schema
+from drf_yasg import openapi
 from rest_framework import viewsets, request
 from rest_framework.generics import get_object_or_404
 from rest_framework.permissions import IsAuthenticated
@@ -71,6 +73,13 @@ class LessonViewSet(viewsets.ModelViewSet):
 
 
 class SubscriptionAPIView(APIView):
+    @swagger_auto_schema(
+        operation_description="Метод позволяет пользователю подписаться на обновления курса или отписаться от них.",
+        responses={
+            200: openapi.Response(description="Успешное изменение статуса подписки"),
+            400: "Ошибка в запросе"
+        }
+    )
     def post(self, request, *args, **kwargs):
         user = request.user
         course_id = request.data.get('course')
