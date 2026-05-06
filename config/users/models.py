@@ -1,7 +1,5 @@
 from django.conf import settings
 
-from materials.models import Course, Lesson
-
 from django.contrib.auth.models import AbstractUser, BaseUserManager
 from django.db import models
 
@@ -51,13 +49,24 @@ class Payment(models.Model):
     payment_date = models.DateTimeField(auto_now_add=True, verbose_name='Дата оплаты')
 
     # Ссылки на курс или урок
-    paid_course = models.ForeignKey(Course, on_delete=models.SET_NULL, null=True, blank=True,
-                                    verbose_name='Оплаченный курс')
-    paid_lesson = models.ForeignKey(Lesson, on_delete=models.SET_NULL, null=True, blank=True,
-                                    verbose_name='Оплаченный урок')
+    paid_course = models.ForeignKey(
+        'materials.Course',  # Вместо объекта Course пишем строку 'приложение.Модель'
+        on_delete=models.SET_NULL,
+        null=True, blank=True,
+        verbose_name='Оплаченный курс'
+    )
+    paid_lesson = models.ForeignKey(
+        'materials.Lesson',  # То же самое здесь
+        on_delete=models.SET_NULL,
+        null=True, blank=True,
+        verbose_name='Оплаченный урок'
+    )
 
     amount = models.DecimalField(max_digits=10, decimal_places=2, verbose_name='Сумма оплаты')
     payment_method = models.CharField(max_length=20, choices=PAYMENT_METHOD_CHOICES, verbose_name='Способ оплаты')
+
+    session_id = models.CharField(max_length=255, verbose_name='Id сессии', blank=True, null=True)
+    link = models.URLField(max_length=1000, verbose_name='Ссылка на оплату', blank=True, null=True)
 
     class Meta:
         verbose_name = 'Платеж'
