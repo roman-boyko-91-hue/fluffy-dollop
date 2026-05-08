@@ -124,7 +124,7 @@ SIMPLE_JWT = {
     'REFRESH_TOKEN_LIFETIME': timedelta(days=1),
 }
 
-CELERY_BROKER_URL = 'redis://localhost:6379/0'
+CELERY_BROKER_URL = os.getenv('CELERY_BROKER_URL')
 CELERY_RESULT_BACKEND = 'redis://localhost:6379/0'
 TIME_ZONE = 'UTC'
 USE_TZ = True
@@ -140,6 +140,6 @@ EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
 CELERY_BEAT_SCHEDULE = {
     'block_users_every_minute': {
         'task': 'users.tasks.block_inactive_users',
-        'schedule': crontab(minute='*/1'),  # Каждую минуту
+        'schedule': crontab(hour=1, minute=0),  # Каждый час
     },
 }
