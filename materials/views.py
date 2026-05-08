@@ -1,4 +1,4 @@
-from rest_framework import viewsets, request
+from rest_framework import viewsets
 from rest_framework.generics import get_object_or_404
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
@@ -8,6 +8,7 @@ from .models import Course, Lesson, Subscription
 from .paginators import MaterialsPagination
 from .serializers import CourseSerializer, LessonSerializer
 from .permissions import IsModerator, IsOwner
+from users.tasks import send_course_update_email
 
 
 class CourseViewSet(viewsets.ModelViewSet):
@@ -28,7 +29,6 @@ class CourseViewSet(viewsets.ModelViewSet):
             permission_classes = [IsAuthenticated, IsOwner]
         else:
             permission_classes = [IsAuthenticated]
-
         return [permission() for permission in permission_classes]
 
     def get_queryset(self):
@@ -41,6 +41,10 @@ class CourseViewSet(viewsets.ModelViewSet):
     def perform_create(self, serializer):
         """Автоматически сохраняет текущего пользователя как владельца."""
         serializer.save(owner=self.request.user)
+
+    def perform_update(self, serializer):
+        instance = serializer.save()
+        send_course_update_email.delay(instance.id)
 
 
 class LessonViewSet(viewsets.ModelViewSet):
