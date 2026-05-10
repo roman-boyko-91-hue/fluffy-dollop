@@ -2,6 +2,5 @@ from rest_framework.pagination import PageNumberPagination
 
 
 class HabitPaginator(PageNumberPagination):
-    page_size = 5  # Количество привычек на одной странице
-    page_size_query_param = 'page_size'
-    max_page_size = 50
+    default_limit = 5
+    max_limit = 50

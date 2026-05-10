@@ -23,4 +23,25 @@ class HabitSerializer(serializers.ModelSerializer):
                 "Время выполнения должно быть не больше 120 секунд."
             )
 
+        # В связанные привычки могут попадать только привычки с признаком приятной.
+        related_habit = data.get('related_habit')
+        if related_habit and not related_habit.is_pleasant:
+            raise serializers.ValidationError(
+                "В связанные привычки могут попадать только привычки с признаком приятной."
+            )
+
+        # У приятной привычки не может быть вознаграждения или связанной привычки.
+        if data.get('is_pleasant'):
+            if data.get('reward') or data.get('related_habit'):
+                raise serializers.ValidationError(
+                    "У приятной привычки не может быть вознаграждения или связанной привычки."
+                )
+
+        # Периодичность не реже 1 раза в 7 дней.
+        periodicity = data.get('periodicity')
+        if periodicity and periodicity > 7:
+            raise serializers.ValidationError(
+                "Нельзя выполнять привычку реже, чем 1 раз в 7 дней."
+            )
+
         return data

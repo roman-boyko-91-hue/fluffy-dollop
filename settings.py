@@ -2,9 +2,6 @@ import os
 from datetime import timedelta
 from pathlib import Path
 
-from celery.schedules import crontab
-from django.conf.global_settings import MEDIA_URL, MEDIA_ROOT
-from django.template.context_processors import media
 from dotenv import load_dotenv
 
 load_dotenv()
@@ -31,6 +28,7 @@ INSTALLED_APPS = [
     'rest_framework_simplejwt',
     'habits',
     'drf_yasg',
+    'corsheaders',
 ]
 
 MIDDLEWARE = [
@@ -41,6 +39,7 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'corsheaders.middleware.CorsMiddleware',
 ]
 
 ROOT_URLCONF = 'urls'
@@ -130,6 +129,13 @@ TELEGRAM_TOKEN = os.getenv("TELEGRAM_TOKEN")
 CELERY_BEAT_SCHEDULE = {
     'send_habit_reminder_every_minute': {
         'task': 'habits.tasks.send_habit_reminder',
-        'schedule': crontab(minute='*/1'), # Каждую минуту
+        'schedule': 60,
     },
 }
+
+CORS_ALLOW_ALL_ORIGINS = True
+
+CELERY_BROKER_URL = 'redis://localhost:6379/0'
+CELERY_RESULT_BACKEND = 'redis://localhost:6379/0'
+CELERY_TIMEZONE = "UTC"
+CELERY_TASK_TRACK_STARTED = True
