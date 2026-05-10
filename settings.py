@@ -2,6 +2,7 @@ import os
 from datetime import timedelta
 from pathlib import Path
 
+from celery.schedules import crontab
 from django.conf.global_settings import MEDIA_URL, MEDIA_ROOT
 from django.template.context_processors import media
 from dotenv import load_dotenv
@@ -28,6 +29,8 @@ INSTALLED_APPS = [
     'materials',
     'django_filters',
     'rest_framework_simplejwt',
+    'habits',
+    'drf_yasg',
 ]
 
 MIDDLEWARE = [
@@ -40,7 +43,7 @@ MIDDLEWARE = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
 
-ROOT_URLCONF = 'config.urls'
+ROOT_URLCONF = 'urls'
 
 TEMPLATES = [
     {
@@ -57,7 +60,7 @@ TEMPLATES = [
     },
 ]
 
-WSGI_APPLICATION = 'config.wsgi.application'
+WSGI_APPLICATION = 'wsgi.application'
 
 # Database
 # https://docs.djangoproject.com/en/6.0/ref/settings/#databases
@@ -120,4 +123,13 @@ REST_FRAMEWORK = {
 SIMPLE_JWT = {
     'ACCESS_TOKEN_LIFETIME': timedelta(minutes=15),
     'REFRESH_TOKEN_LIFETIME': timedelta(days=1),
+}
+
+TELEGRAM_TOKEN = os.getenv("TELEGRAM_TOKEN")
+
+CELERY_BEAT_SCHEDULE = {
+    'send_habit_reminder_every_minute': {
+        'task': 'habits.tasks.send_habit_reminder',
+        'schedule': crontab(minute='*/1'), # Каждую минуту
+    },
 }

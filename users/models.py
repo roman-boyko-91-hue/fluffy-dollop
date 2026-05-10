@@ -32,6 +32,13 @@ class User(AbstractUser):
     city = models.CharField(max_length=100, verbose_name='Город', blank=True, null=True)
     avatar = models.ImageField(upload_to='users/avatars/', verbose_name='Аватарка', blank=True, null=True)
 
+    tg_chat_id = models.CharField(
+        max_length=50,
+        verbose_name='Телеграм chat ID',
+        null=True,
+        blank=True
+    )
+
     objects = UserManager()
 
     USERNAME_FIELD = "email"  # Поле для логина
