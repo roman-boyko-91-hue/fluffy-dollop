@@ -1,21 +1,19 @@
 import requests
-from celery_1 import shared_task
+from celery import shared_task
 from django.conf import settings
 from habits.models import Habit
-from datetime import datetime
+from django.utils import timezone
 
 
 @shared_task
 def send_habit_reminder():
     """Задача для рассылки напоминаний о привычках в Telegram"""
 
-    # Фильтруем привычки: берем только те, время которых совпадает с текущим
-    # Сравниваем часы и минуты
-    now = datetime.now().time()
+    now = timezone.localtime(timezone.now()).time()
     habits = Habit.objects.filter(time__hour=now.hour, time__minute=now.minute)
 
     token = settings.TELEGRAM_TOKEN
-    url = f"https://telegram.org{token}/sendMessage"
+    url = f"https://api.telegram.org/bot{token}/sendMessage"
 
     for habit in habits:
         chat_id = habit.user.tg_chat_id
