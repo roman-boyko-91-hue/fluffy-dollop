@@ -2,7 +2,7 @@ name: Django CI/CD Pipeline
 
 on:
   push:
-    branches: [ "main", "master", "homework_35_2" ]
+    branches: [ "main", "master", "homework_35_2", "final_assignment" ]
   pull_request:
     branches: [ "main", "master" ]
 
