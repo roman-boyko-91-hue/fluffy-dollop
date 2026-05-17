@@ -96,9 +96,21 @@ jobs:
           host: ${{ secrets.SERVER_HOST }}
           username: ${{ secrets.SERVER_USER }}
           key: ${{ secrets.SERVER_SSH_KEY }}
-          script: |
+          cript: |
+            # Если папки еще нет, создаем её
+            sudo mkdir -p /var/www/drf_project
+            sudo chown -R ubuntu:ubuntu /var/www/drf_project
+            
             cd /var/www/drf_project
-            git pull origin homework_35_2
+            
+            # Если проект еще ни разу не клонировался, делаем чистый clone
+            if [ ! -d ".git" ]; then
+              git clone -b homework_35_2 https://github.com .
+            else
+              git pull origin homework_35_2
+            fi
+            
+            # Перезапускаем контейнеры и применяем миграции
             docker-compose down
             docker-compose up --build -d
             docker-compose exec -T web python manage.py migrate
