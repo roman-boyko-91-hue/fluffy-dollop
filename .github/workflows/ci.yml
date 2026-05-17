@@ -1,0 +1,110 @@
+name: Django CI/CD Pipeline
+
+on:
+  push:
+    branches: [ "main", "master", "homework_35_2" ]
+  pull_request:
+    branches: [ "main", "master" ]
+
+jobs:
+  lint:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Проверяем репозиторий и копируем код
+        uses: actions/checkout@v4
+
+      - name: Настраиваем Python 3.13
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.13'
+
+      - name: Устанавливаем linter (flake8)
+        run: |
+          python -m pip install --upgrade pip
+          pip install flake8
+
+      - name: Проверка кода линтером
+        run: |
+          # Остановит сборку, если есть синтаксические ошибки или неопределенные имена
+          flake8 . --count --select=E9,F63,F7,F82 --show-source --statistics
+          # Уведомления обо всех остальных нарушениях (без падения сборки)
+          flake8 . --count --exit-zero --max-complexity=10 --max-line-length=127 --statistics
+
+  tests:
+    runs-on: ubuntu-latest
+    needs: lint
+    services:
+      postgres_db:
+        image: postgres:16-alpine
+        env:
+          POSTGRES_DB: test_drf_db
+          POSTGRES_USER: test_user
+          POSTGRES_PASSWORD: test_password
+        ports:
+          - 5432:5432
+        options: >-
+          --health-cmd pg_isready
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+
+      redis_broker:
+        image: redis:7-alpine
+        ports:
+          - 6379:6379
+
+    steps:
+      - name: Проверяем репозиторий и копируем код
+        uses: actions/checkout@v4
+
+      - name: Настраиваем Python 3.13
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.13'
+
+      - name: Устанавливаем зависимости проекта
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt
+
+      - name: Запускаем тесты Django
+        env:
+          SECRET_KEY: "test_secret_key_for_github_actions"
+          DEBUG: "True"
+          DB_NAME: "test_drf_db"
+          DB_USER: "test_user"
+          DB_PASSWORD: "test_password"
+          DB_HOST: "localhost"
+          DB_PORT: "5432"
+          CELERY_BROKER_URL: "redis://localhost:6379/0"
+          CELERY_RESULT_BACKEND: "redis://localhost:6379/0"
+        run: |
+          python manage.py test
+
+  deploy:
+    runs-on: ubuntu-latest
+    needs: tests
+    # Условие: запускаем деплой только при push, игнорируем pull_request
+    if: github.event_name == 'push'
+
+    steps:
+      - name: Подключаемся по SSH и обновляем проект на сервере
+        uses: appleboy/ssh-action@v1.0.3
+        with:
+          host: ${{ secrets.SERVER_HOST }}
+          username: ${{ secrets.SERVER_USER }}
+          key: ${{ secrets.SERVER_SSH_KEY }}
+          script: |
+            cd /var/www/drf_project
+            
+            git pull origin homework_35_2
+            
+            # Пересобираем контейнеры с учетом новых флагов перезапуска и expose
+            docker-compose down
+            docker-compose up --build -d
+            
+            # Миграции накатятся автоматически при старте web (из docker-compose.yaml), 
+            # но дублируем команду для гарантии успешного обновления базы данных
+            docker-compose exec -T web python manage.py migrate
+            docker-compose exec -T web python manage.py collectstatic --noinput
+

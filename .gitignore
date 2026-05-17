@@ -1,2 +1,21 @@
+.# Окружение и секреты
 .env
+.env.dev
+
+# Виртуальное окружение
+.venv/
+venv/
+ENV/
+
+# Кэш Python
+**/__pycache__/
+*.pyc
+*.pyo
+*.pyd
+.pytest_cache/
+
+# Специфичные файлы IDE и ОС
 .idea/
+.vscode/
+.DS_Store
+celerybeat-schedule
