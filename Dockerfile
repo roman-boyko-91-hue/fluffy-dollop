@@ -15,7 +15,7 @@ RUN pip install --no-cache-dir --upgrade pip \
 COPY . .
 
 # Статикf Django для Nginx
-RUN python manage.py collectstatic --noinput
+RUN SECRET_KEY=build_placeholder python manage.py collectstatic --noinput
 
 EXPOSE 8000
 
