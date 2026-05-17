@@ -25,9 +25,7 @@ jobs:
 
       - name: Проверка кода линтером
         run: |
-          # Остановит сборку, если есть синтаксические ошибки или неопределенные имена
           flake8 . --count --select=E9,F63,F7,F82 --show-source --statistics
-          # Уведомления обо всех остальных нарушениях (без падения сборки)
           flake8 . --count --exit-zero --max-complexity=10 --max-line-length=127 --statistics
 
   tests:
@@ -81,10 +79,14 @@ jobs:
         run: |
           python manage.py test
 
+      # Тестовая сборка образов прямо в GitHub Actions
+      - name: Проверяем возможность сборки Docker-образов
+        run: |
+          docker compose build
+
   deploy:
     runs-on: ubuntu-latest
     needs: tests
-    # Условие: запускаем деплой только при push, игнорируем pull_request
     if: github.event_name == 'push'
 
     steps:
@@ -96,15 +98,8 @@ jobs:
           key: ${{ secrets.SERVER_SSH_KEY }}
           script: |
             cd /var/www/drf_project
-            
             git pull origin homework_35_2
-            
-            # Пересобираем контейнеры с учетом новых флагов перезапуска и expose
             docker-compose down
             docker-compose up --build -d
-            
-            # Миграции накатятся автоматически при старте web (из docker-compose.yaml), 
-            # но дублируем команду для гарантии успешного обновления базы данных
             docker-compose exec -T web python manage.py migrate
             docker-compose exec -T web python manage.py collectstatic --noinput
-
