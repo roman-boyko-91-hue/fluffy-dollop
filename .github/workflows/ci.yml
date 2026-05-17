@@ -99,12 +99,16 @@ jobs:
             sudo mkdir -p /var/www/drf_project
             sudo chown -R ubuntu:ubuntu /var/www/drf_project
             cd /var/www/drf_project
+            
+            # Проверяем, пустая ли папка. Если да — клонируем с правильным адресом
             if [ ! -d ".git" ]; then
               git clone -b final_assignment https://github.com .
             else
               git pull origin final_assignment
             fi
-            docker-compose down
-            docker-compose up --build -d
-            docker-compose exec -T web python manage.py migrate
-            docker-compose exec -T web python manage.py collectstatic --noinput
+            
+            # Запуск контейнеров
+            docker compose down
+            docker compose up --build -d
+            docker compose exec -T web python manage.py migrate
+            docker compose exec -T web python manage.py collectstatic --noinput
