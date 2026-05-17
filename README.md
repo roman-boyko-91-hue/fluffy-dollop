@@ -1,51 +1,58 @@
-# Трекер привычек (Django DRF + Docker)
+# Django DRF Project (CI/CD & Docker Production Ready)
 
-Курсовой проект № 5 - созданию API-сервиса 
-для отслеживания полезных привычек. 
+Проект на Django REST Framework, полностью упакованный в Docker и 
+готовый к продакшну с настроенным CI/CD пайплайном.
 
-## Технологический стек
-* Python 3.13
-* Django 6.0.5 / Django REST Framework (DRF)
-* PostgreSQL
-* Redis (Брокер сообщений)
-* Celery & Celery Beat (Фоновые и периодические задачи)
-* Docker / Docker Compose
+## Стек технологий
+* **Backend:** Python 3.13 / Django 5.x / Django REST Framework
+* **Асинхронные задачи:** Celery / Celery Beat
+* **База данных и брокер:** PostgreSQL / Redis
+* **Production сервер:** Gunicorn / Nginx / Docker Compose
+* **CI/CD:** GitHub Actions (Linter + Tests + Auto Deploy via SSH)
 
-## Как запустить проект в Docker
+---
 
-### 1. Клонируйте репозиторий и перейдите в ветку домашней работы:
-```bash
-git checkout homework_34_2
-```
+## Ссылка на Pull Request
+* **Pull Request:** https://github.com/roman-boyko-91-hue/fluffy-dollop/pull/31
 
-### 2. Создайте файл окружения `.env` в корне проекта:
-```env
-DEBUG=True
-SECRET_KEY=your_secret_key
-POSTGRES_DB=your_db_name
-POSTGRES_USER=your_db_user
-POSTGRES_PASSWORD=your_db_password
-POSTGRES_HOST=db
-POSTGRES_PORT=5432
-CELERY_BROKER_URL=redis://redis:6379/0
-CELERY_RESULT_BACKEND=redis://redis:6379/0
-```
+---
 
-### 3. Соберите и запустите контейнеры:
-```bash
-docker-compose up --build
-```
+## Архитектура контейнеров (Docker Compose)
+Вся инфраструктура разделена на изолированные сервисы:
+* `web` — Django-приложение (запускается через Production-сервер Gunicorn, порт 8000 закрыт от внешнего мира и доступен только внутри сети Docker).
+* `db` — База данных PostgreSQL 15 с автоматическим хелсчеком.
+* `redis` — Брокер сообщений для Celery.
+* `celery` / `celery_beat` — Воркеры для обработки фоновых и периодических задач.
+* `nginx` — Единственная точка входа (Reverse Proxy), которая принимает внешний трафик на 80 порту и раздает статику.
 
-После этого автоматически запустятся 5 сервисов: 
-Django (`web`), PostgreSQL (`db`), Redis (`redis`), а 
-также воркер и планировщик Celery.
+---
 
-### 4. Примените миграции (в новом окне терминала):
-```bash
-docker-compose exec web python manage.py migrate
-```
+## Локальный запуск (Разработка)
 
-## 📖 Документация API
-После запуска проекта документация Swagger доступна по адресу:
-* http://localhost:8000/swagger/
-* http://localhost:8000/redoc/
+1. Клонируйте репозиторий и перейдите в ветку домашки:
+   ```bash
+   git clone <https://github.com/roman-boyko-91-hue/fluffy-dollop/pull/31>
+   cd <drf_project>
+   git checkout homework_35_2
+   ```
+
+2. Создайте локальный файл окружения `.env` на основе шаблона `.env.template`:
+   ```bash
+   cp .env.template .env
+   ```
+   *Убедитесь, что для работы внутри Docker переменная `CELERY_BROKER_URL` установлена в значение `redis://redis:6379/0`.*
+
+3. Запустите проект одной командой:
+   ```bash
+   docker-compose up --build
+   ```
+   *Все миграции применятся автоматически, статика соберется, а сервисы запустятся в правильном порядке благодаря `depends_on`.*
+
+---
+
+## Описание CI/CD пайплайна (.github/workflows/ci.yml)
+
+Пайплайн разделен на три изолированные и последовательные стадии:
+1. **Lint (Flake8):** Автоматическая проверка кода на синтаксические ошибки и соответствие стандартам.
+2. **Tests:** Поднятие временных тестовых контейнеров (PostgreSQL + Redis) в облаке GitHub и запуск набора тестов (`manage.py test`).
+3. **Deploy:** Выполняется строго при пуше или мердже в ветку `homework_35_2`/`main`. Скрипт безопасно подключается к продакшн-серверу через SSH, забирает свежий код, пересобирает контейнеры без остановки трафика и применяет новые миграции. На Pull Request деплой заблокирован.

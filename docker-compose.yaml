@@ -1,7 +1,9 @@
 version: '3.8'
+
 services:
   db:
     image: postgres:15-alpine
+    restart: always
     env_file: [ .env ]
     environment:
       POSTGRES_DB: ${DB_NAME}
@@ -17,15 +19,20 @@ services:
 
   redis:
     image: redis:7-alpine
+    restart: always
     expose: [ "6379" ]
     volumes: [ redis_data:/data ]
 
   web:
     build: .
-    command: sh -c "python manage.py migrate && python manage.py runserver 0.0.0.0:8000"
-    ports: [ "8000:8000" ]
+    # Делаем миграции и запускаем дефолтную команду из Dockerfile (gunicorn)
+    command: sh -c "python manage.py migrate && gunicorn --bind 0.0.0.0:8000 drf_project.wsgi:application"
+    restart: always
+    expose: [ "8000" ]
     env_file: [ .env ]
-    volumes: [ .:/app ]
+    volumes:
+      - .:/app
+      - static_volume:/app/static
     depends_on:
       db: { condition: service_healthy }
       redis: { condition: service_started }
@@ -33,6 +40,7 @@ services:
   celery:
     build: .
     command: celery -A celery_app:app worker --loglevel=info
+    restart: always
     env_file: [ .env ]
     depends_on:
       db: { condition: service_healthy }
@@ -41,6 +49,7 @@ services:
   celery_beat:
     build: .
     command: celery -A celery_app:app beat --loglevel=info
+    restart: always
     env_file: [ .env ]
     depends_on:
       db: { condition: service_healthy }
