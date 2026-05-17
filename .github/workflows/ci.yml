@@ -99,14 +99,12 @@ jobs:
             sudo mkdir -p /var/www/drf_project
             sudo chown -R ubuntu:ubuntu /var/www/drf_project
             cd /var/www/drf_project
-            
             if [ -d ".git" ]; then
               git pull origin final_assignment
             else
               sudo rm -rf * .git
               git clone -b final_assignment https://github.com .
             fi
-            
             docker-compose down
             docker-compose up --build -d
             docker-compose exec -T web python manage.py migrate
