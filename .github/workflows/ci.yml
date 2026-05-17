@@ -81,8 +81,10 @@ jobs:
 
       # Тестовая сборка образов прямо в GitHub Actions
       - name: Проверяем возможность сборки Docker-образов
-        run: |
-          docker compose build
+        env:
+          SECRET_KEY: "temporary_secret_key_for_docker_build"
+          run: |
+            docker compose build
 
   deploy:
     runs-on: ubuntu-latest
